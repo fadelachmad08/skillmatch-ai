@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillMatch AI &mdash; Discover Your Skills. Match Your Future.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+    <style>
+        .layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 980px) {
+            .layout.with-results { grid-template-columns: 420px 1fr; }
+        }
+        .form-card { align-self: start; }
+        @media (min-width: 980px) { .form-card { position: sticky; top: 20px; } }
+
+        .placeholder {
+            background: var(--paper);
+            border: 2px dashed var(--line);
+            border-radius: 16px;
+            padding: 60px 32px;
+            text-align: center;
+            color: var(--muted);
+        }
+        .placeholder .icon {
+            width: 80px; height: 80px; margin: 0 auto 16px;
+            background: var(--gradient-soft);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .placeholder .icon svg { width: 40px; height: 40px; }
+        .placeholder h3 { font-size: 22px; color: var(--navy); margin-bottom: 6px; font-weight: 700; }
+
+        .section { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+        .section-header {
+            display: flex; align-items: baseline; justify-content: space-between;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 12px; margin-bottom: 20px;
+        }
+        .section-header h2 { font-size: 22px; font-weight: 700; color: var(--navy); }
+        .section-header .step {
+            font-size: 11px; color: var(--purple); text-transform: uppercase;
+            letter-spacing: 1.5px; font-weight: 600;
+            background: var(--lavender); padding: 4px 10px; border-radius: 100px;
+        }
+
+        .career-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px; align-items: center;
+            padding: 18px;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: var(--paper);
+            transition: all 0.2s;
+        }
+        .career-card:hover { border-color: var(--blue); }
+        .career-card.top-match {
+            border-color: transparent;
+            background: linear-gradient(white, white) padding-box,
+                        var(--gradient) border-box;
+            border: 2px solid transparent;
+            background-clip: padding-box, border-box;
+            position: relative;
+        }
+        .career-card.top-match::before {
+            content: 'TOP'; position: absolute; top: -10px; right: 16px;
+            background: var(--gradient); color: white;
+            font-size: 10px; font-weight: 700; padding: 3px 10px;
+            border-radius: 100px; letter-spacing: 1px;
+        }
+        .rank-number { font-size: 48px; line-height: 1; font-weight: 700; color: var(--line); }
+        .career-card.top-match .rank-number {
+            background: var(--gradient);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .career-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--navy); }
+        .career-info p { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+        .meta { display: flex; gap: 12px; font-size: 11px; color: var(--muted); flex-wrap: wrap; font-weight: 500; }
+        .meta .interest-badge {
+            background: linear-gradient(135deg, #FCD34D, #F59E0B);
+            color: white; padding: 2px 8px; border-radius: 4px; font-weight: 700;
+        }
+        .match-score { text-align: right; min-width: 90px; }
+        .match-score .pct {
+            font-size: 32px; font-weight: 700; line-height: 1;
+            background: var(--gradient);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .match-score .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+
+        .gap-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-box { background: var(--bg); padding: 16px; border-radius: 12px; border: 1px solid var(--line); }
+        .stat-box .number {
+            font-size: 32px; font-weight: 700; line-height: 1;
+            background: var(--gradient);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-box .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 600; }
+
+        .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .subsection-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 10px; margin-top: 8px; font-weight: 600; }
+
+        .skill-course-block { padding: 18px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 12px; background: var(--bg); }
+        .skill-course-block h4 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--navy); }
+        .skill-course-block h4 .skill-tag {
+            background: var(--gradient); color: white;
+            padding: 2px 10px; border-radius: 100px; font-size: 11px;
+            margin-left: 6px; vertical-align: middle; font-weight: 600;
+        }
+        .course-item { padding: 10px 0; border-top: 1px solid var(--line); }
+        .course-item:first-of-type { border-top: none; padding-top: 0; }
+        .course-item .name { font-weight: 600; font-size: 14px; margin-bottom: 3px; color: var(--ink); }
+        .course-item .info { font-size: 11px; color: var(--muted); font-weight: 500; }
+        .course-item .link { font-size: 11px; color: var(--blue); margin-top: 4px; word-break: break-all; }
+
+        .loading-state { text-align: center; padding: 60px 32px; }
+        .loading-state .spinner {
+            width: 48px; height: 48px; margin: 0 auto 16px;
+            border: 3px solid var(--lavender);
+            border-top-color: var(--purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-state p { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+        .ai-insight {
+            background: var(--gradient);
+            color: white;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .ai-insight .label { color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 2px; font-size: 10px; margin-bottom: 6px; font-weight: 600; }
+        .ai-insight code { background: rgba(255,255,255,0.18); padding: 1px 6px; border-radius: 4px; font-weight: 500; }
+        .ai-insight a { color: white; text-decoration: underline; font-weight: 600; }
+
+        .error-box {
+            background: #FEF2F2; border: 1px solid #FECACA;
+            color: #991B1B; padding: 16px 20px; border-radius: 12px;
+        }
+
+        .profile-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gradient-soft);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            color: var(--purple);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .profile-pill .dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; }
+
+        @media (max-width: 760px) {
+            .career-card { grid-template-columns: 1fr; text-align: left; }
+            .rank-number { font-size: 36px; }
+            .match-score { text-align: left; }
+            .gap-summary { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% set active_page = 'home' %}
+        {% include '_header.html' %}
+
+        <div class="hero">
+            <div class="hero-tag">Career Readiness Recommender</div>
+            <h1>Discover Your Skills.<br><span class="gradient-text">Match Your Future.</span></h1>
+            <p>SkillMatch AI menganalisis profil skill kamu menggunakan Vector Space Model dan Cosine Similarity untuk merekomendasikan jalur karier, mengidentifikasi skill gap, dan menyarankan kursus yang paling relevan.</p>
+        </div>
+
+        <div class="layout" id="layout">
+            <!-- INPUT FORM -->
+            <div class="card form-card">
+                <h2 class="card-title">Profil Kamu</h2>
+                <div class="card-subtitle">Input &middot; kurang dari 2 menit</div>
+
+                {% if profile.name %}
+                <div class="profile-pill">
+                    <span class="dot"></span>
+                    <span>Data dimuat dari profile: {{ profile.name }}</span>
+                </div>
+                {% endif %}
+
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label class="field-label">Nama</label>
+                        <input type="text" id="name" value="{{ profile.name }}" placeholder="Fadel" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="field-label">Jurusan</label>
+                            <input type="text" id="major" value="{{ profile.major }}" placeholder="Sistem Informasi" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label">Semester</label>
+                            <input type="number" id="semester" min="1" max="14" value="{{ profile.semester or 5 }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Minat Karier</label>
+                        <select id="career_interest">
+                            <option value="">— Pilih (opsional) —</option>
+                            {% for c in careers %}
+                            <option value="{{ c.Karier }}" {% if c.Karier == profile.career_interest %}selected{% endif %}>{{ c.Karier }} ({{ c.Kategori }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Skill Yang Sudah Dimiliki</label>
+                        <div class="hint">Centang semua skill yang kamu kuasai</div>
+                        <div class="skill-grid" id="skill-grid">
+                            {% for skill in skills %}
+                            <label class="skill-checkbox {% if skill in profile.saved_skills %}checked{% endif %}">
+                                <input type="checkbox" name="skill" value="{{ skill }}" {% if skill in profile.saved_skills %}checked{% endif %}>
+                                <span>{{ skill }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="skill-count">
+                            <span>Dipilih: <strong id="skill-count">{{ profile.saved_skills|length }}</strong> skill</span>
+                            <a href="/profile" style="color: var(--purple); text-decoration: none; font-size: 11px;">Edit di Profile →</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
+                        Analisis Profil
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- RESULTS AREA -->
+            <div id="results-area">
+                <div class="placeholder" id="placeholder">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M12 8v4l3 2"/></svg>
+                    </div>
+                    <h3>Belum ada analisis</h3>
+                    <p>Isi profil kamu di sebelah kiri, lalu klik <strong>Analisis Profil</strong>.<br>AI akan merekomendasikan karier, skill gap, dan kursus.</p>
+                </div>
+
+                <div class="loading-state" id="loading" style="display:none;">
+                    <div class="spinner"></div>
+                    <p>Running Cosine Similarity...</p>
+                </div>
+
+                <div id="results" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('profile-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const placeholder = document.getElementById('placeholder');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const layout = document.getElementById('layout');
+        const skillCount = document.getElementById('skill-count');
+
+        document.querySelectorAll('input[name="skill"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const label = cb.closest('.skill-checkbox');
+                if (cb.checked) label.classList.add('checked');
+                else label.classList.remove('checked');
+                skillCount.textContent = document.querySelectorAll('input[name="skill"]:checked').length;
+            });
+        });
+
+        function getSelectedSkills() {
+            return Array.from(document.querySelectorAll('input[name="skill"]:checked')).map(cb => cb.value);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const selectedSkills = getSelectedSkills();
+            if (selectedSkills.length === 0) {
+                alert('Pilih minimal 1 skill yang sudah kamu miliki.');
+                return;
+            }
+
+            const payload = {
+                name: document.getElementById('name').value,
+                major: document.getElementById('major').value,
+                semester: parseInt(document.getElementById('semester').value),
+                career_interest: document.getElementById('career_interest').value,
+                current_skills: selectedSkills
+            };
+
+            placeholder.style.display = 'none';
+            results.style.display = 'none';
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            layout.classList.add('with-results');
+
+            try {
+                const res = await fetch('/recommend', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                renderResults(data);
+            } catch (err) {
+                results.innerHTML = `<div class="card error-box">Error: ${err.message}</div>`;
+                results.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Analisis Profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+            }
+        });
+
+        function renderResults(data) {
+            const careers = data.recommended_careers || [];
+            const gap = data.skill_gap_analysis;
+            const courses = data.course_recommendations || [];
+            const info = data.algorithm_info;
+
+            let html = '';
+
+            // SECTION 1: Career Recommendations
+            html += `<div class="section">
+                <div class="section-header">
+                    <h2>Rekomendasi Karier</h2>
+                    <span class="step">Step 1 / 3</span>
+                </div>`;
+            if (careers.length === 0) {
+                html += '<p style="color: var(--muted);">Tidak ada rekomendasi karier yang cocok dengan skill yang dipilih.</p>';
+            } else {
+                careers.forEach((c, i) => {
+                    const topClass = i === 0 ? 'top-match' : '';
+                    const interestBadge = c.interest_match ? '<span class="interest-badge">SESUAI MINAT</span>' : '';
+                    html += `
+                    <div class="career-card ${topClass}">
+                        <div class="rank-number">${i + 1}</div>
+                        <div class="career-info">
+                            <h3>${c.career_name}</h3>
+                            <p>${c.description}</p>
+                            <div class="meta">
+                                <span>${c.category}</span>
+                                <span>${c.total_skills_required} skill dibutuhkan</span>
+                                <span>cos_sim = ${c.similarity_score}</span>
+                                ${interestBadge}
+                            </div>
+                        </div>
+                        <div class="match-score">
+                            <div class="pct">${c.match_percentage}%</div>
+                            <div class="label">Match</div>
+                        </div>
+                    </div>`;
+                });
+            }
+            html += '</div>';
+
+            // SECTION 2: Skill Gap
+            if (gap) {
+                html += `<div class="section">
+                    <div class="section-header">
+                        <h2>Skill Gap — ${gap.target_career}</h2>
+                        <span class="step">Step 2 / 3</span>
+                    </div>
+                    <div class="gap-summary">
+                        <div class="stat-box"><div class="number">${gap.readiness_percentage}%</div><div class="label">Kesiapan</div></div>
+                        <div class="stat-box"><div class="number">${gap.total_matched}</div><div class="label">Skill Dimiliki</div></div>
+                        <div class="stat-box"><div class="number">${gap.total_missing}</div><div class="label">Perlu Dipelajari</div></div>
+                    </div>
+
+                    <div class="subsection-title">Sudah Dimiliki (${gap.matched_skills.length})</div>
+                    <div class="skill-chips">`;
+                if (gap.matched_skills.length === 0) {
+                    html += `<span style="font-style:italic;color:var(--muted);font-size:13px;">Belum ada skill yang sesuai.</span>`;
+                }
+                gap.matched_skills.forEach(s => { html += `<span class="chip chip-have">${s}</span>`; });
+                html += `</div>
+                    <div class="subsection-title">Perlu Dipelajari (${gap.missing_skills.length})</div>
+                    <div class="skill-chips">`;
+                if (gap.missing_skills.length === 0) {
+                    html += `<span style="font-style:italic;color:var(--muted);font-size:13px;">Semua skill sudah dimiliki!</span>`;
+                }
+                gap.missing_skills.forEach(s => { html += `<span class="chip chip-missing">${s}</span>`; });
+                html += `</div></div>`;
+            }
+
+            // SECTION 3: Courses
+            if (courses.length > 0) {
+                html += `<div class="section">
+                    <div class="section-header">
+                        <h2>Kursus &amp; Sertifikasi</h2>
+                        <span class="step">Step 3 / 3</span>
+                    </div>`;
+                courses.forEach(rec => {
+                    html += `<div class="skill-course-block">
+                        <h4>${rec.skill}<span class="skill-tag">${rec.course_count} kursus</span></h4>`;
+                    if (rec.courses.length === 0) {
+                        html += `<p style="font-style:italic;color:var(--muted);font-size:13px;">Belum ada kursus terdaftar.</p>`;
+                    }
+                    rec.courses.forEach(c => {
+                        html += `<div class="course-item">
+                            <div class="name">${c.course_name}</div>
+                            <div class="info">${c.platform} &middot; ${c.level} &middot; ${c.duration}</div>
+                            <div class="link">${c.link}</div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            // AI INSIGHT + CTA
+            html += `<div class="ai-insight">
+                <div class="label">↳ AI Engine</div>
+                <div>Algoritma: <code>${info.method}</code></div>
+                <div>Skill dim: <code>${info.skill_dimension}</code> · ${info.total_careers} karier · ${info.total_courses} kursus</div>
+                <div style="margin-top:8px;">Mau tanya lebih detail? <a href="/chat">Chat dengan AI →</a></div>
+            </div>`;
+
+            results.innerHTML = html;
+            results.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SkillMatch AI — Figma Design Spec</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1D2B64;
+  --blue: #3B82F6;
+  --indigo: #6366F1;
+  --purple: #8B5CF6;
+  --lavender: #EDE9FE;
+  --bg: #F8FAFF;
+  --paper: #FFFFFF;
+  --ink: #1D2B64;
+  --muted: #64748B;
+  --line: #E2E8F0;
+  --success: #10B981;
+  --danger: #EF4444;
+  --gold: #F59E0B;
+  --gradient: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+body {
+  background: #e5e7eb;
+  padding: 40px 20px;
+  color: var(--ink);
+}
+
+/* Sticky toolbar */
+.toolbar {
+  position: sticky; top: 20px; z-index: 100;
+  background: var(--navy); color: white;
+  padding: 16px 24px; border-radius: 12px;
+  margin: 0 auto 32px; max-width: 1440px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.toolbar h1 { font-size: 18px; font-weight: 700; }
+.toolbar p { font-size: 12px; opacity: 0.7; }
+.toolbar .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.toolbar a {
+  color: white; text-decoration: none;
+  padding: 6px 12px; border-radius: 6px;
+  font-size: 12px; font-weight: 500;
+  background: rgba(255,255,255,0.1);
+  transition: background 0.15s;
+}
+.toolbar a:hover { background: rgba(255,255,255,0.25); }
+
+/* Frame container */
+.frame-section { max-width: 1440px; margin: 0 auto 60px; }
+.frame-label {
+  background: var(--purple); color: white;
+  padding: 10px 16px; border-radius: 8px 8px 0 0;
+  font-size: 13px; font-weight: 600;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.frame-label .dim {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; opacity: 0.85; font-weight: 400;
+}
+.frame {
+  width: 1440px; height: auto; min-height: 900px;
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 100%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+  padding: 40px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== HEADER (sama di semua halaman) ===== */
+.app-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 0; margin-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+.brand-logo {
+  width: 44px; height: 44px;
+  background: var(--gradient);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.brand-logo::before {
+  content: ''; position: absolute;
+  width: 24px; height: 24px;
+  background: white;
+  clip-path: polygon(50% 5%, 65% 35%, 95% 35%, 72% 55%, 80% 85%, 50% 70%, 20% 85%, 28% 55%, 5% 35%, 35% 35%);
+}
+.brand-name { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.brand-name .ai {
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.app-nav { display: flex; gap: 4px; }
+.app-nav a {
+  color: var(--muted); text-decoration: none;
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 14px; font-weight: 500;
+}
+.app-nav a.active { color: white; background: var(--gradient); }
+
+/* ===== HERO ===== */
+.hero { margin-bottom: 40px; max-width: 720px; }
+.hero-tag {
+  display: inline-block;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--purple); font-weight: 600;
+  margin-bottom: 12px; padding: 4px 12px;
+  background: var(--lavender); border-radius: 100px;
+}
+.hero h1 {
+  font-weight: 700; font-size: 48px; line-height: 1.1;
+  letter-spacing: -1.5px; margin-bottom: 16px;
+}
+.hero h1 .grad {
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p { font-size: 16px; color: var(--muted); max-width: 580px; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 1px 2px rgba(29, 43, 100, 0.05);
+}
+.card-title { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.card-subtitle {
+  font-size: 12px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 24px; font-weight: 500;
+}
+
+/* ===== FORMS ===== */
+.form-group { margin-bottom: 18px; }
+.field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.hint { font-size: 11px; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+.input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--line); border-radius: 10px;
+  background: white; font-size: 14px; font-weight: 500;
+  color: var(--ink);
+}
+.form-row { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 12px 20px; border: none; border-radius: 10px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  text-decoration: none;
+}
+.btn-primary { background: var(--gradient); color: white; }
+.btn-full { width: 100%; }
+.btn-secondary { background: var(--lavender); color: var(--purple); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1.5px solid var(--line); }
+.btn-danger { background: transparent; color: var(--danger); border: 1.5px solid #FECACA; }
+
+/* ===== SKILL CHECKBOXES ===== */
+.skill-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  max-height: 280px; overflow-y: auto;
+  padding: 12px; border: 1.5px solid var(--line); border-radius: 12px;
+  background: var(--bg);
+}
+.skill-checkbox {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: 8px;
+  font-size: 12px; font-weight: 500;
+  background: white; border: 1px solid transparent;
+}
+.skill-checkbox.checked {
+  background: var(--gradient); color: white;
+}
+.skill-checkbox .box {
+  width: 14px; height: 14px;
+  border: 2px solid var(--muted); border-radius: 3px;
+  flex-shrink: 0;
+}
+.skill-checkbox.checked .box {
+  background: white; border-color: white;
+  position: relative;
+}
+.skill-checkbox.checked .box::after {
+  content: '✓'; position: absolute;
+  top: -3px; left: 1px; color: var(--purple);
+  font-size: 12px; font-weight: 700;
+}
+.skill-count {
+  font-size: 12px; color: var(--muted);
+  margin-top: 10px; font-weight: 500;
+  display: flex; justify-content: space-between;
+}
+
+/* ===== STATS ROW ===== */
+.stats-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px; margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 20px; border-radius: 12px;
+}
+.stat-card .num {
+  font-size: 36px; font-weight: 700; line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-card .lbl {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-top: 8px; font-weight: 500;
+}
+
+/* ===== CHIPS ===== */
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 5px 12px; border-radius: 100px;
+  font-size: 12px; font-weight: 500;
+}
+.chip-skill { background: var(--lavender); color: var(--purple); }
+.chip-have { background: rgba(16, 185, 129, 0.12); color: #047857; }
+.chip-missing { background: rgba(239, 68, 68, 0.12); color: #B91C1C; }
+.chip-blue { background: rgba(59, 130, 246, 0.12); color: var(--blue); }
+
+/* ===== HOME PAGE LAYOUT ===== */
+.home-layout { display: grid; grid-template-columns: 420px 1fr; gap: 24px; }
+
+/* Career card */
+.section {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: 16px; padding: 28px; margin-bottom: 20px;
+}
+.section-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px; margin-bottom: 20px;
+}
+.section-header h2 { font-size: 22px; font-weight: 700; color: var(--navy); }
+.section-header .step {
+  font-size: 11px; color: var(--purple); text-transform: uppercase;
+  letter-spacing: 1.5px; font-weight: 600;
+  background: var(--lavender); padding: 4px 10px; border-radius: 100px;
+}
+
+.career-card {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: 20px; align-items: center;
+  padding: 18px;
+  border: 1.5px solid var(--line); border-radius: 12px;
+  margin-bottom: 12px; background: white;
+  position: relative;
+}
+.career-card.top {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(white, white) padding-box,
+    var(--gradient) border-box;
+}
+.career-card.top::before {
+  content: 'TOP'; position: absolute;
+  top: -10px; right: 16px;
+  background: var(--gradient); color: white;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px; letter-spacing: 1px;
+}
+.rank-number { font-size: 48px; font-weight: 700; line-height: 1; color: var(--line); }
+.career-card.top .rank-number {
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.career-info h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.career-info p { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.meta { display: flex; gap: 12px; font-size: 11px; color: var(--muted); font-weight: 500; }
+.interest-badge {
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  color: white; padding: 2px 8px; border-radius: 4px; font-weight: 700;
+}
+.match-score { text-align: right; min-width: 90px; }
+.match-score .pct {
+  font-size: 32px; font-weight: 700; line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.match-score .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+
+/* Gap analysis stat box */
+.gap-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.stat-box {
+  background: var(--bg); padding: 16px;
+  border-radius: 12px; border: 1px solid var(--line);
+}
+.stat-box .number {
+  font-size: 32px; font-weight: 700; line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-box .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 600; }
+
+.subsection-title {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); margin-bottom: 10px; margin-top: 8px; font-weight: 600;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+
+/* Course block */
+.skill-course-block {
+  padding: 18px; border: 1px solid var(--line);
+  border-radius: 12px; margin-bottom: 12px; background: var(--bg);
+}
+.skill-course-block h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.skill-tag {
+  background: var(--gradient); color: white;
+  padding: 2px 10px; border-radius: 100px; font-size: 11px;
+  margin-left: 6px; font-weight: 600;
+}
+.course-item { padding: 10px 0; border-top: 1px solid var(--line); }
+.course-item:first-of-type { border-top: none; padding-top: 0; }
+.course-item .name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+.course-item .info { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+.ai-insight {
+  background: var(--gradient); color: white;
+  border-radius: 12px; padding: 20px 24px;
+  font-size: 13px; line-height: 1.7;
+}
+.ai-insight .label {
+  color: rgba(255,255,255,0.7); text-transform: uppercase;
+  letter-spacing: 2px; font-size: 10px; margin-bottom: 6px; font-weight: 600;
+}
+.ai-insight code { background: rgba(255,255,255,0.18); padding: 1px 6px; border-radius: 4px; font-weight: 500; }
+
+/* ===== PROFILE PAGE ===== */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.avatar {
+  width: 88px; height: 88px;
+  background: var(--gradient);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 36px; font-weight: 700;
+  margin-bottom: 16px;
+}
+.info-list { list-style: none; }
+.info-list li {
+  display: flex; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.info-list li:last-child { border: none; }
+.info-list .key { color: var(--muted); font-weight: 500; }
+.info-list .val { color: var(--ink); font-weight: 600; }
+.button-row { display: flex; gap: 8px; margin-top: 12px; }
+
+/* ===== CHAT PAGE ===== */
+.chat-layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+.chat-card {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: 16px; display: flex; flex-direction: column;
+  height: 600px; overflow: hidden;
+}
+.chat-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px;
+}
+.chat-avatar {
+  width: 40px; height: 40px;
+  background: var(--gradient); border-radius: 50%;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; font-weight: 700;
+}
+.chat-avatar::after {
+  content: ''; position: absolute; bottom: 1px; right: 1px;
+  width: 10px; height: 10px;
+  background: var(--success); border-radius: 50%;
+  border: 2px solid white;
+}
+.chat-title h3 { font-size: 16px; font-weight: 700; color: var(--navy); }
+.chat-title .status { font-size: 11px; color: var(--success); font-weight: 600; }
+
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  background: linear-gradient(180deg, var(--bg) 0%, white 100%);
+}
+.msg-wrap.user { align-self: flex-end; align-items: flex-end; display: flex; flex-direction: column; max-width: 75%; }
+.msg-wrap.ai { align-self: flex-start; display: flex; flex-direction: column; max-width: 75%; }
+.msg { padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; }
+.msg.ai { background: white; border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.msg.user { background: var(--gradient); color: white; border-bottom-right-radius: 4px; font-weight: 500; }
+.msg-time { font-size: 10px; color: var(--muted); margin-top: 4px; padding: 0 4px; }
+
+.chat-input-wrap { padding: 14px 16px; border-top: 1px solid var(--line); }
+.chat-form { display: flex; gap: 8px; }
+.chat-input {
+  flex: 1; padding: 11px 16px;
+  border: 1.5px solid var(--line); border-radius: 100px;
+  font-size: 14px;
+}
+.send-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gradient); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; border: none;
+}
+
+.suggestion-chip {
+  display: inline-block; padding: 8px 14px;
+  background: white; border: 1.5px solid var(--line);
+  border-radius: 100px; font-size: 12px;
+  color: var(--ink); font-weight: 500;
+  cursor: pointer; margin: 3px;
+}
+
+/* ===== HISTORY PAGE ===== */
+.history-item {
+  background: var(--paper); border: 1.5px solid var(--line);
+  border-radius: 14px; padding: 20px 24px; margin-bottom: 14px;
+  display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: center;
+}
+.history-title { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.history-meta { font-size: 12px; color: var(--muted); display: flex; gap: 12px; }
+.history-score {
+  font-size: 28px; font-weight: 700; line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+.history-score .label { font-size: 10px; color: var(--muted); -webkit-text-fill-color: var(--muted); background: none; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+/* ===== DESIGN SYSTEM PAGE ===== */
+.ds-section { margin-bottom: 60px; }
+.ds-section h2 {
+  font-size: 28px; font-weight: 700; color: var(--navy);
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--line);
+}
+.color-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px;
+}
+.color-swatch {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--line); background: white;
+}
+.color-swatch .preview { height: 100px; }
+.color-swatch .info { padding: 12px 14px; font-size: 12px; }
+.color-swatch .name { font-weight: 700; margin-bottom: 2px; color: var(--navy); }
+.color-swatch .hex { font-family: 'JetBrains Mono', monospace; color: var(--muted); }
+
+.spec-table {
+  width: 100%; background: white; border: 1px solid var(--line);
+  border-radius: 12px; overflow: hidden; border-collapse: collapse;
+}
+.spec-table th, .spec-table td {
+  padding: 12px 16px; text-align: left;
+  border-bottom: 1px solid var(--line); font-size: 13px;
+}
+.spec-table th { background: var(--bg); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+.spec-table tr:last-child td { border: none; }
+.spec-table code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--lavender); color: var(--purple);
+  padding: 2px 8px; border-radius: 4px; font-size: 12px;
+}
+
+.font-sample { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.font-sample:last-child { border: none; }
+.font-sample .meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
+.font-sample .preview-text { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div>
+    <h1>SkillMatch AI — Figma Design Spec</h1>
+    <p>Open di browser → screenshot tiap frame → import ke Figma sebagai reference layer</p>
+  </div>
+  <div class="nav-links">
+    <a href="#ds">Design System</a>
+    <a href="#home">Home</a>
+    <a href="#profile">Profile</a>
+    <a href="#history">Riwayat</a>
+    <a href="#chat">Chat AI</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DESIGN SYSTEM PAGE -->
+<!-- ============================================================ -->
+<div class="frame-section" id="ds">
+  <div class="frame-label">
+    <span>📐 DESIGN SYSTEM — Foundation</span>
+    <span class="dim">Frame: 1440 × auto</span>
+  </div>
+  <div class="frame" style="padding: 60px 80px;">
+
+    <h1 style="font-size: 56px; font-weight: 700; letter-spacing: -2px; margin-bottom: 8px;">
+      Design <span style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">System</span>
+    </h1>
+    <p style="font-size: 18px; color: var(--muted); margin-bottom: 48px;">Foundation untuk SkillMatch AI brand identity</p>
+
+    <!-- COLORS -->
+    <div class="ds-section">
+      <h2>1. Color Palette</h2>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="preview" style="background: #1D2B64;"></div>
+          <div class="info"><div class="name">Navy</div><div class="hex">#1D2B64</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #3B82F6;"></div>
+          <div class="info"><div class="name">Blue</div><div class="hex">#3B82F6</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #6366F1;"></div>
+          <div class="info"><div class="name">Indigo</div><div class="hex">#6366F1</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #8B5CF6;"></div>
+          <div class="info"><div class="name">Purple</div><div class="hex">#8B5CF6</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #EDE9FE;"></div>
+          <div class="info"><div class="name">Lavender</div><div class="hex">#EDE9FE</div></div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Semantic Colors</h3>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="preview" style="background: #F8FAFF;"></div>
+          <div class="info"><div class="name">Background</div><div class="hex">#F8FAFF</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0;"></div>
+          <div class="info"><div class="name">Paper</div><div class="hex">#FFFFFF</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #64748B;"></div>
+          <div class="info"><div class="name">Muted</div><div class="hex">#64748B</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #10B981;"></div>
+          <div class="info"><div class="name">Success</div><div class="hex">#10B981</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="preview" style="background: #EF4444;"></div>
+          <div class="info"><div class="name">Danger</div><div class="hex">#EF4444</div></div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Gradient (Primary)</h3>
+      <div style="height: 80px; border-radius: 12px; background: var(--gradient); display: flex; align-items: center; justify-content: center; color: white; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;">
+        linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="ds-section">
+      <h2>2. Typography — Poppins</h2>
+      <div style="background: white; border: 1px solid var(--line); border-radius: 12px; padding: 32px;">
+        <div class="font-sample">
+          <div class="meta">H1 / Hero — 48px · Weight 700 · Letter-spacing -1.5px · Line-height 1.1</div>
+          <div class="preview-text" style="font-size: 48px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;">Discover Your Skills</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">H2 / Section — 28px · Weight 700 · Letter-spacing -0.5px</div>
+          <div class="preview-text" style="font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Rekomendasi Karier</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">H3 / Card title — 22px · Weight 700</div>
+          <div class="preview-text" style="font-size: 22px; font-weight: 700;">Profil Kamu</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">H4 / Item title — 18px · Weight 700</div>
+          <div class="preview-text" style="font-size: 18px; font-weight: 700;">Data Analyst</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">Body — 14px · Weight 400/500</div>
+          <div class="preview-text" style="font-size: 14px; font-weight: 400;">Aplikasi AI yang membantu mahasiswa menemukan jalur karier sesuai dengan skill mereka.</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">Label — 13px · Weight 600</div>
+          <div class="preview-text" style="font-size: 13px; font-weight: 600;">Nama Lengkap</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">Caption — 12px · Weight 500 · Color Muted</div>
+          <div class="preview-text" style="font-size: 12px; font-weight: 500; color: var(--muted);">Pilih semua skill yang kamu kuasai</div>
+        </div>
+        <div class="font-sample">
+          <div class="meta">Eyebrow — 11px · Weight 600 · UPPERCASE · Letter-spacing 2px</div>
+          <div class="preview-text" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--purple);">Career Readiness</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPACING & RADIUS -->
+    <div class="ds-section">
+      <h2>3. Spacing & Radius</h2>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Value</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td>Spacing XS</td><td><code>4px</code></td><td>Icon gap, tight elements</td></tr>
+          <tr><td>Spacing SM</td><td><code>8px</code></td><td>Button internal, chip padding</td></tr>
+          <tr><td>Spacing MD</td><td><code>16px</code></td><td>Card content gaps</td></tr>
+          <tr><td>Spacing LG</td><td><code>24px</code></td><td>Card padding, section gaps</td></tr>
+          <tr><td>Spacing XL</td><td><code>32px</code></td><td>Hero margin, page padding</td></tr>
+          <tr><td>Spacing 2XL</td><td><code>48px</code></td><td>Major section breaks</td></tr>
+          <tr><td>Radius SM</td><td><code>8px</code></td><td>Nav links, chips internal</td></tr>
+          <tr><td>Radius MD</td><td><code>10px</code></td><td>Buttons, inputs</td></tr>
+          <tr><td>Radius LG</td><td><code>12px</code></td><td>Stat boxes, course blocks</td></tr>
+          <tr><td>Radius XL</td><td><code>16px</code></td><td>Cards, sections</td></tr>
+          <tr><td>Radius full</td><td><code>100px</code></td><td>Chips, pills, buttons rounded</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COMPONENTS -->
+    <div class="ds-section">
+      <h2>4. Components</h2>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 16px 0 12px; color: var(--navy);">Buttons</h3>
+      <div style="display: flex; gap: 12px; margin-bottom: 24px; align-items: center;">
+        <button class="btn btn-primary">Primary Button →</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-ghost">Ghost Button</button>
+        <button class="btn btn-danger">Reset</button>
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 16px 0 12px; color: var(--navy);">Chips</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+        <span class="chip chip-skill">Python</span>
+        <span class="chip chip-have">✓ SQL (sudah dimiliki)</span>
+        <span class="chip chip-missing">Power BI (perlu dipelajari)</span>
+        <span class="chip chip-blue">94.5%</span>
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 16px 0 12px; color: var(--navy);">Input Field</h3>
+      <div style="max-width: 400px; margin-bottom: 24px;">
+        <label class="field-label">Nama Lengkap</label>
+        <input class="input" value="Fadel">
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 16px 0 12px; color: var(--navy);">Logo</h3>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div class="brand-logo" style="width: 64px; height: 64px; border-radius: 16px;"></div>
+        <div>
+          <div class="brand-name" style="font-size: 28px;">SkillMatch <span class="ai">AI</span></div>
+          <div style="font-size: 13px; color: var(--muted); letter-spacing: 2px;">DISCOVER YOUR SKILLS. MATCH YOUR FUTURE.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- HOME PAGE -->
+<!-- ============================================================ -->
+<div class="frame-section" id="home">
+  <div class="frame-label">
+    <span>🏠 HOME — Analisis Skill</span>
+    <span class="dim">Frame: 1440 × 1600 · /</span>
+  </div>
+  <div class="frame">
+
+    <header class="app-header">
+      <a href="#" class="brand">
+        <div class="brand-logo"></div>
+        <div class="brand-name">SkillMatch <span class="ai">AI</span></div>
+      </a>
+      <nav class="app-nav">
+        <a href="#" class="active">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Riwayat</a>
+        <a href="#">Chat AI</a>
+        <a href="#">Dataset</a>
+        <a href="#">Algoritma</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <span class="hero-tag">Career Readiness Recommender</span>
+      <h1>Discover Your Skills.<br><span class="grad">Match Your Future.</span></h1>
+      <p>SkillMatch AI menganalisis profil skill kamu menggunakan Vector Space Model dan Cosine Similarity untuk merekomendasikan jalur karier, mengidentifikasi skill gap, dan menyarankan kursus yang relevan.</p>
+    </div>
+
+    <div class="home-layout">
+      <!-- FORM -->
+      <div class="card">
+        <h2 class="card-title">Profil Kamu</h2>
+        <p class="card-subtitle">Input · kurang dari 2 menit</p>
+
+        <div class="form-group">
+          <label class="field-label">Nama</label>
+          <input class="input" value="Fadel">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="field-label">Jurusan</label>
+            <input class="input" value="Sistem Informasi">
+          </div>
+          <div class="form-group">
+            <label class="field-label">Semester</label>
+            <input class="input" value="6">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Minat Karier</label>
+          <select class="input"><option>Data Analyst (Tech & Data)</option></select>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Skill Yang Sudah Dimiliki</label>
+          <p class="hint">Centang semua skill yang kamu kuasai</p>
+          <div class="skill-grid">
+            <label class="skill-checkbox checked"><span class="box"></span>Python</label>
+            <label class="skill-checkbox checked"><span class="box"></span>SQL</label>
+            <label class="skill-checkbox checked"><span class="box"></span>Statistics</label>
+            <label class="skill-checkbox"><span class="box"></span>Machine Learning</label>
+            <label class="skill-checkbox"><span class="box"></span>Data Visualization</label>
+            <label class="skill-checkbox checked"><span class="box"></span>Excel</label>
+            <label class="skill-checkbox checked"><span class="box"></span>Tableau</label>
+            <label class="skill-checkbox"><span class="box"></span>Power BI</label>
+            <label class="skill-checkbox"><span class="box"></span>R Programming</label>
+            <label class="skill-checkbox"><span class="box"></span>Deep Learning</label>
+            <label class="skill-checkbox"><span class="box"></span>Figma</label>
+            <label class="skill-checkbox"><span class="box"></span>UI Design</label>
+          </div>
+          <div class="skill-count">
+            <span>Dipilih: <strong style="color: var(--purple); font-weight: 700;">5</strong> skill</span>
+            <span style="color: var(--purple); font-size: 11px;">Edit di Profile →</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full">Analisis Profil →</button>
+      </div>
+
+      <!-- RESULTS -->
+      <div>
+        <!-- SECTION 1: Career Recs -->
+        <div class="section">
+          <div class="section-header">
+            <h2>Rekomendasi Karier</h2>
+            <span class="step">Step 1 / 3</span>
+          </div>
+
+          <div class="career-card top">
+            <div class="rank-number">1</div>
+            <div class="career-info">
+              <h3>Data Analyst</h3>
+              <p>Menganalisis data untuk menghasilkan insight bisnis.</p>
+              <div class="meta">
+                <span>Tech &amp; Data</span>
+                <span>7 skill dibutuhkan</span>
+                <span>cos_sim = 0.8452</span>
+                <span class="interest-badge">SESUAI MINAT</span>
+              </div>
+            </div>
+            <div class="match-score">
+              <div class="pct">94.5%</div>
+              <div class="label">Match</div>
+            </div>
+          </div>
+
+          <div class="career-card">
+            <div class="rank-number">2</div>
+            <div class="career-info">
+              <h3>Data Scientist</h3>
+              <p>Membangun model prediktif dan algoritma machine learning.</p>
+              <div class="meta"><span>Tech &amp; Data</span><span>9 skill dibutuhkan</span><span>cos_sim = 0.6712</span></div>
+            </div>
+            <div class="match-score"><div class="pct">67.1%</div><div class="label">Match</div></div>
+          </div>
+
+          <div class="career-card">
+            <div class="rank-number">3</div>
+            <div class="career-info">
+              <h3>Business Analyst</h3>
+              <p>Menganalisis kebutuhan bisnis dan menerjemahkan menjadi solusi.</p>
+              <div class="meta"><span>Tech &amp; Data</span><span>6 skill dibutuhkan</span><span>cos_sim = 0.6124</span></div>
+            </div>
+            <div class="match-score"><div class="pct">61.2%</div><div class="label">Match</div></div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Skill Gap -->
+        <div class="section">
+          <div class="section-header">
+            <h2>Skill Gap — Data Analyst</h2>
+            <span class="step">Step 2 / 3</span>
+          </div>
+          <div class="gap-summary">
+            <div class="stat-box"><div class="number">71.4%</div><div class="label">Kesiapan</div></div>
+            <div class="stat-box"><div class="number">5</div><div class="label">Skill Dimiliki</div></div>
+            <div class="stat-box"><div class="number">2</div><div class="label">Perlu Dipelajari</div></div>
+          </div>
+
+          <div class="subsection-title">Sudah Dimiliki (5)</div>
+          <div class="chip-row">
+            <span class="chip chip-have">Python</span>
+            <span class="chip chip-have">SQL</span>
+            <span class="chip chip-have">Statistics</span>
+            <span class="chip chip-have">Excel</span>
+            <span class="chip chip-have">Tableau</span>
+          </div>
+
+          <div class="subsection-title">Perlu Dipelajari (2)</div>
+          <div class="chip-row">
+            <span class="chip chip-missing">Data Visualization</span>
+            <span class="chip chip-missing">Power BI</span>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Courses -->
+        <div class="section">
+          <div class="section-header">
+            <h2>Kursus &amp; Sertifikasi</h2>
+            <span class="step">Step 3 / 3</span>
+          </div>
+
+          <div class="skill-course-block">
+            <h4>Data Visualization <span class="skill-tag">1 kursus</span></h4>
+            <div class="course-item">
+              <div class="name">Data Visualization with Python</div>
+              <div class="info">Coursera · Intermediate · 4 minggu</div>
+            </div>
+          </div>
+
+          <div class="skill-course-block">
+            <h4>Power BI <span class="skill-tag">1 kursus</span></h4>
+            <div class="course-item">
+              <div class="name">Microsoft Power BI Data Analyst</div>
+              <div class="info">Coursera · Intermediate · 6 minggu</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI INSIGHT -->
+        <div class="ai-insight">
+          <div class="label">↳ AI ENGINE</div>
+          <div>Algoritma: <code>Vector Space Model + Cosine Similarity</code></div>
+          <div>Skill dim: <code>20</code> · 10 karier · 19 kursus</div>
+          <div style="margin-top:8px;">Mau tanya lebih detail? <strong>Chat dengan AI →</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PROFILE PAGE -->
+<!-- ============================================================ -->
+<div class="frame-section" id="profile">
+  <div class="frame-label">
+    <span>👤 PROFILE — Edit Profile</span>
+    <span class="dim">Frame: 1440 × 1200 · /profile</span>
+  </div>
+  <div class="frame">
+
+    <header class="app-header">
+      <a href="#" class="brand">
+        <div class="brand-logo"></div>
+        <div class="brand-name">SkillMatch <span class="ai">AI</span></div>
+      </a>
+      <nav class="app-nav">
+        <a href="#">Home</a>
+        <a href="#" class="active">Profile</a>
+        <a href="#">Riwayat</a>
+        <a href="#">Chat AI</a>
+        <a href="#">Dataset</a>
+        <a href="#">Algoritma</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <span class="hero-tag">Personal Profile</span>
+      <h1>Edit <span class="grad">Profile</span> Kamu</h1>
+      <p>Simpan profile supaya tidak perlu input ulang setiap analisis. Data tersimpan lokal di komputer kamu.</p>
+    </div>
+
+    <div class="profile-grid">
+      <!-- LEFT: Form -->
+      <div class="card">
+        <div class="avatar">F</div>
+        <h2 class="card-title">Informasi Pribadi</h2>
+        <p class="card-subtitle">Edit & Simpan</p>
+
+        <div class="form-group"><label class="field-label">Nama Lengkap</label><input class="input" value="Fadel"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="field-label">Jurusan</label><input class="input" value="Sistem Informasi"></div>
+          <div class="form-group"><label class="field-label">Semester</label><input class="input" value="6"></div>
+        </div>
+        <div class="form-group">
+          <label class="field-label">Minat Karier</label>
+          <select class="input"><option>Data Analyst (Tech & Data)</option></select>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Skill Yang Sudah Dimiliki</label>
+          <p class="hint">Centang skill kamu — akan otomatis terisi di halaman Analisis</p>
+          <div class="skill-grid">
+            <label class="skill-checkbox checked"><span class="box"></span>Python</label>
+            <label class="skill-checkbox checked"><span class="box"></span>SQL</label>
+            <label class="skill-checkbox checked"><span class="box"></span>Statistics</label>
+            <label class="skill-checkbox"><span class="box"></span>Machine Learning</label>
+            <label class="skill-checkbox checked"><span class="box"></span>Excel</label>
+            <label class="skill-checkbox checked"><span class="box"></span>Tableau</label>
+            <label class="skill-checkbox"><span class="box"></span>R Programming</label>
+            <label class="skill-checkbox"><span class="box"></span>Power BI</label>
+          </div>
+          <div class="skill-count"><span>Dipilih: <strong style="color: var(--purple);">5</strong> skill</span></div>
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-primary">Simpan Profile</button>
+          <button class="btn btn-danger">Reset</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Summary -->
+      <div>
+        <div class="card" style="margin-bottom: 20px;">
+          <h2 class="card-title">Ringkasan Profile</h2>
+          <p class="card-subtitle">Data Tersimpan</p>
+
+          <ul class="info-list">
+            <li><span class="key">Nama</span><span class="val">Fadel</span></li>
+            <li><span class="key">Jurusan</span><span class="val">Sistem Informasi</span></li>
+            <li><span class="key">Semester</span><span class="val">6</span></li>
+            <li><span class="key">Minat Karier</span><span class="val">Data Analyst</span></li>
+            <li><span class="key">Total Skill</span><span class="val">5 skill</span></li>
+          </ul>
+
+          <div style="margin-top: 16px;">
+            <div class="subsection-title">Skill List</div>
+            <div class="chip-row">
+              <span class="chip chip-skill">Python</span>
+              <span class="chip chip-skill">SQL</span>
+              <span class="chip chip-skill">Statistics</span>
+              <span class="chip chip-skill">Excel</span>
+              <span class="chip chip-skill">Tableau</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title" style="font-size: 18px;">Quick Actions</h2>
+          <p class="card-subtitle">Navigasi Cepat</p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="#" class="btn btn-secondary">→ Mulai Analisis Skill</a>
+            <a href="#" class="btn btn-ghost">→ Lihat Riwayat (12)</a>
+            <a href="#" class="btn btn-ghost">→ Chat dengan AI</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- HISTORY PAGE -->
+<!-- ============================================================ -->
+<div class="frame-section" id="history">
+  <div class="frame-label">
+    <span>📜 RIWAYAT — Analysis History</span>
+    <span class="dim">Frame: 1440 × 1000 · /history</span>
+  </div>
+  <div class="frame">
+
+    <header class="app-header">
+      <a href="#" class="brand">
+        <div class="brand-logo"></div>
+        <div class="brand-name">SkillMatch <span class="ai">AI</span></div>
+      </a>
+      <nav class="app-nav">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#" class="active">Riwayat</a>
+        <a href="#">Chat AI</a>
+        <a href="#">Dataset</a>
+        <a href="#">Algoritma</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <span class="hero-tag">Analysis History</span>
+      <h1>Riwayat <span class="grad">Analisis</span></h1>
+      <p>Semua hasil analisis tersimpan otomatis. Bandingkan progress skill kamu dari waktu ke waktu.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="num">12</div><div class="lbl">Total Analisis</div></div>
+      <div class="stat-card"><div class="num">12</div><div class="lbl">Analisis Berhasil</div></div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+      <p style="color: var(--muted); font-size: 14px;">Klik salah satu untuk lihat detail.</p>
+      <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Hapus Semua Riwayat</button>
+    </div>
+
+    <div class="history-item">
+      <div>
+        <div class="history-title">Fadel — Data Analyst</div>
+        <div class="history-meta">
+          <span>17 May 2026, 21:30</span>
+          <span>•</span>
+          <span><strong>Sistem Informasi</strong> Sem 6</span>
+          <span>•</span>
+          <span>5 skill</span>
+        </div>
+      </div>
+      <div class="history-score">94.5%<div class="label">Match</div></div>
+      <div style="font-size: 18px; color: var(--muted); cursor: pointer;">🗑</div>
+    </div>
+
+    <div class="history-item">
+      <div>
+        <div class="history-title">Fadel — UI/UX Designer</div>
+        <div class="history-meta">
+          <span>17 May 2026, 19:45</span>
+          <span>•</span>
+          <span><strong>Sistem Informasi</strong> Sem 6</span>
+          <span>•</span>
+          <span>3 skill</span>
+        </div>
+      </div>
+      <div class="history-score">73.2%<div class="label">Match</div></div>
+      <div style="font-size: 18px; color: var(--muted); cursor: pointer;">🗑</div>
+    </div>
+
+    <div class="history-item">
+      <div>
+        <div class="history-title">Fadel — Data Scientist</div>
+        <div class="history-meta">
+          <span>16 May 2026, 14:12</span>
+          <span>•</span>
+          <span><strong>Sistem Informasi</strong> Sem 6</span>
+          <span>•</span>
+          <span>4 skill</span>
+        </div>
+      </div>
+      <div class="history-score">68.1%<div class="label">Match</div></div>
+      <div style="font-size: 18px; color: var(--muted); cursor: pointer;">🗑</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAT AI PAGE -->
+<!-- ============================================================ -->
+<div class="frame-section" id="chat">
+  <div class="frame-label">
+    <span>💬 CHAT AI — AI Assistant</span>
+    <span class="dim">Frame: 1440 × 1000 · /chat</span>
+  </div>
+  <div class="frame">
+
+    <header class="app-header">
+      <a href="#" class="brand">
+        <div class="brand-logo"></div>
+        <div class="brand-name">SkillMatch <span class="ai">AI</span></div>
+      </a>
+      <nav class="app-nav">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Riwayat</a>
+        <a href="#" class="active">Chat AI</a>
+        <a href="#">Dataset</a>
+        <a href="#">Algoritma</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <span class="hero-tag">AI Assistant</span>
+      <h1>Tanya <span class="grad">AI Assistant</span></h1>
+      <p>Chat dengan AI untuk dapatkan penjelasan tentang hasil rekomendasi, skill gap, atau cara kerja algoritma.</p>
+    </div>
+
+    <div class="chat-layout">
+      <!-- CHAT BOX -->
+      <div class="chat-card">
+        <div class="chat-header">
+          <div class="chat-avatar">S</div>
+          <div class="chat-title">
+            <h3>SkillMatch AI Assistant</h3>
+            <div class="status">● Online</div>
+          </div>
+        </div>
+
+        <div class="chat-messages">
+          <div class="msg-wrap ai">
+            <div class="msg ai">Halo! Saya AI Assistant SkillMatch 👋<br><br>Tanya apa saja tentang hasil analisis kamu, skill gap, kursus, atau algoritma AI.</div>
+            <div class="msg-time">21:30</div>
+          </div>
+
+          <div class="msg-wrap user">
+            <div class="msg user">Apa karier terbaik untuk saya?</div>
+            <div class="msg-time">21:31</div>
+          </div>
+
+          <div class="msg-wrap ai">
+            <div class="msg ai">Berdasarkan analisis terakhir, karier yang paling cocok untuk kamu adalah <strong>Data Analyst</strong> dengan match <strong>94.5%</strong>. Menganalisis data untuk menghasilkan insight bisnis.</div>
+            <div class="msg-time">21:31</div>
+          </div>
+
+          <div class="msg-wrap user">
+            <div class="msg user">Skill apa yang perlu saya pelajari?</div>
+            <div class="msg-time">21:32</div>
+          </div>
+
+          <div class="msg-wrap ai">
+            <div class="msg ai">Untuk jadi <strong>Data Analyst</strong>, kamu perlu belajar <strong>2 skill lagi</strong>: Data Visualization, Power BI. Kesiapanmu saat ini 71.4%.</div>
+            <div class="msg-time">21:32</div>
+          </div>
+        </div>
+
+        <div class="chat-input-wrap">
+          <form class="chat-form">
+            <input class="chat-input" placeholder="Ketik pertanyaan...">
+            <button class="send-btn">➤</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="card" style="margin-bottom: 16px;">
+          <h2 class="card-title" style="font-size: 16px;">💡 Coba Tanya</h2>
+          <p class="card-subtitle" style="margin-bottom: 12px;">Suggested Questions</p>
+          <div>
+            <span class="suggestion-chip">Apa karier terbaik?</span>
+            <span class="suggestion-chip">Skill apa yang perlu dipelajari?</span>
+            <span class="suggestion-chip">Rekomendasi kursus?</span>
+            <span class="suggestion-chip">Cara kerja AI?</span>
+            <span class="suggestion-chip">Apa itu Data Analyst?</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title" style="font-size: 16px;">📊 Analisis Terakhir</h2>
+          <p class="card-subtitle" style="margin-bottom: 12px;">17 May 2026, 21:30</p>
+          <div style="font-size: 13px; line-height: 1.7;">
+            <strong style="color: var(--navy);">Fadel</strong><br>
+            <span style="color: var(--muted);">Sistem Informasi · Sem 6</span><br><br>
+            Top karier: <strong>Data Analyst</strong> <span class="chip chip-blue" style="margin-left: 4px;">94.5%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

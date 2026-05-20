@@ -1,0 +1,18 @@
+{# Shared header partial. Usage: {% include '_header.html' %} #}
+<header class="app-header">
+    <a href="/" class="brand">
+        <img src="/static/logo.svg" alt="SkillMatch AI" class="brand-logo">
+        <div class="brand-name">SkillMatch <span class="ai">AI</span></div>
+    </a>
+    <nav class="app-nav">
+        <a href="/" class="{% if active_page == 'home' %}active{% endif %}">Home</a>
+        <a href="/profile" class="{% if active_page == 'profile' %}active{% endif %}">Profile</a>
+        <a href="/history" class="{% if active_page == 'history' %}active{% endif %}">
+            Riwayat
+            {% if history_count and history_count > 0 %}<span class="badge-count">{{ history_count }}</span>{% endif %}
+        </a>
+        <a href="/chat" class="{% if active_page == 'chat' %}active{% endif %}">Chat AI</a>
+        <a href="/dataset" class="{% if active_page == 'dataset' %}active{% endif %}">Dataset</a>
+        <a href="/algorithm" class="{% if active_page == 'algorithm' %}active{% endif %}">Algoritma</a>
+    </nav>
+</header>

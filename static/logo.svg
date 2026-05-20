@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="leftBrain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="rightBrain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#A855F7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left brain hemisphere (blue) -->
+  <path d="M100 35 C 70 35, 45 55, 45 90 C 45 100, 48 110, 53 118 C 48 125, 48 135, 55 142 C 50 150, 55 162, 68 165 C 75 172, 90 172, 100 165 L 100 35 Z"
+        fill="url(#leftBrain)" opacity="0.92"/>
+
+  <!-- Right brain hemisphere (purple) -->
+  <path d="M100 35 C 130 35, 155 55, 155 90 C 155 100, 152 110, 147 118 C 152 125, 152 135, 145 142 C 150 150, 145 162, 132 165 C 125 172, 110 172, 100 165 L 100 35 Z"
+        fill="url(#rightBrain)" opacity="0.92"/>
+
+  <!-- Circuit dots and lines - LEFT side -->
+  <circle cx="70" cy="70" r="3.5" fill="white"/>
+  <circle cx="85" cy="90" r="3.5" fill="white"/>
+  <circle cx="65" cy="105" r="3.5" fill="white"/>
+  <circle cx="80" cy="130" r="3.5" fill="white"/>
+  <circle cx="62" cy="145" r="3.5" fill="white"/>
+  <line x1="70" y1="70" x2="85" y2="90" stroke="white" stroke-width="2"/>
+  <line x1="85" y1="90" x2="65" y2="105" stroke="white" stroke-width="2"/>
+  <line x1="65" y1="105" x2="80" y2="130" stroke="white" stroke-width="2"/>
+  <line x1="80" y1="130" x2="62" y2="145" stroke="white" stroke-width="2"/>
+
+  <!-- Circuit dots and lines - RIGHT side -->
+  <circle cx="130" cy="70" r="3.5" fill="white"/>
+  <circle cx="115" cy="90" r="3.5" fill="white"/>
+  <circle cx="135" cy="105" r="3.5" fill="white"/>
+  <circle cx="120" cy="130" r="3.5" fill="white"/>
+  <circle cx="138" cy="145" r="3.5" fill="white"/>
+  <line x1="130" y1="70" x2="115" y2="90" stroke="white" stroke-width="2"/>
+  <line x1="115" y1="90" x2="135" y2="105" stroke="white" stroke-width="2"/>
+  <line x1="135" y1="105" x2="120" y2="130" stroke="white" stroke-width="2"/>
+  <line x1="120" y1="130" x2="138" y2="145" stroke="white" stroke-width="2"/>
+
+  <!-- Center star (spark) -->
+  <path d="M100 95 L 103 105 L 113 108 L 103 111 L 100 121 L 97 111 L 87 108 L 97 105 Z"
+        fill="white"/>
+</svg>

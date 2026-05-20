@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile &mdash; SkillMatch AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+    <style>
+        .profile-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 980px) { .profile-grid { grid-template-columns: 1fr 1fr; } }
+        .avatar {
+            width: 88px; height: 88px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 36px; font-weight: 700;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+        .toast {
+            position: fixed; bottom: 24px; right: 24px;
+            background: var(--ink); color: white;
+            padding: 14px 20px; border-radius: 12px;
+            font-size: 14px; font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { background: var(--success); }
+        .toast.danger { background: var(--danger); }
+        .info-list { list-style: none; padding: 0; }
+        .info-list li {
+            display: flex; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid var(--line);
+            font-size: 14px;
+        }
+        .info-list li:last-child { border-bottom: none; }
+        .info-list .key { color: var(--muted); font-weight: 500; }
+        .info-list .val { color: var(--ink); font-weight: 600; }
+        .empty-state {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 32px 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .button-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% set active_page = 'profile' %}
+        {% include '_header.html' %}
+
+        <div class="hero">
+            <div class="hero-tag">Personal Profile</div>
+            <h1>Edit <span class="gradient-text">Profile</span> Kamu</h1>
+            <p>Simpan profile kamu di sini supaya tidak perlu input ulang setiap analisis. Data tersimpan secara lokal di komputer kamu.</p>
+        </div>
+
+        <div class="profile-grid">
+            <!-- LEFT: Form -->
+            <div class="card">
+                <div class="avatar" id="avatar">{{ (profile.name[:1] or 'U')|upper }}</div>
+                <h2 class="card-title">Informasi Pribadi</h2>
+                <div class="card-subtitle">Edit & Simpan</div>
+
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label class="field-label">Nama Lengkap</label>
+                        <input type="text" id="name" value="{{ profile.name }}" placeholder="Fadel">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="field-label">Jurusan</label>
+                            <input type="text" id="major" value="{{ profile.major }}" placeholder="Sistem Informasi">
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label">Semester</label>
+                            <input type="number" id="semester" min="1" max="14" value="{{ profile.semester or 1 }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Minat Karier Utama</label>
+                        <select id="career_interest">
+                            <option value="">— Pilih (opsional) —</option>
+                            {% for c in careers %}
+                            <option value="{{ c.Karier }}" {% if c.Karier == profile.career_interest %}selected{% endif %}>{{ c.Karier }} ({{ c.Kategori }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Skill Yang Sudah Dimiliki</label>
+                        <div class="hint">Centang skill kamu — akan otomatis terisi di halaman Analisis</div>
+                        <div class="skill-grid">
+                            {% for skill in skills %}
+                            <label class="skill-checkbox {% if skill in profile.saved_skills %}checked{% endif %}">
+                                <input type="checkbox" name="skill" value="{{ skill }}" {% if skill in profile.saved_skills %}checked{% endif %}>
+                                <span>{{ skill }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="skill-count">
+                            <span>Dipilih: <strong id="skill-count">{{ profile.saved_skills|length }}</strong> skill</span>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="submit" class="btn btn-primary" id="save-btn">
+                            Simpan Profile
+                        </button>
+                        <button type="button" class="btn btn-danger" id="reset-btn">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- RIGHT: Summary -->
+            <div>
+                <div class="card" style="margin-bottom: 20px;">
+                    <h2 class="card-title">Ringkasan Profile</h2>
+                    <div class="card-subtitle">Data Tersimpan</div>
+
+                    {% if profile.name %}
+                    <ul class="info-list">
+                        <li><span class="key">Nama</span> <span class="val">{{ profile.name }}</span></li>
+                        <li><span class="key">Jurusan</span> <span class="val">{{ profile.major or '-' }}</span></li>
+                        <li><span class="key">Semester</span> <span class="val">{{ profile.semester }}</span></li>
+                        <li><span class="key">Minat Karier</span> <span class="val">{{ profile.career_interest or '-' }}</span></li>
+                        <li><span class="key">Total Skill</span> <span class="val">{{ profile.saved_skills|length }} skill</span></li>
+                    </ul>
+
+                    {% if profile.saved_skills %}
+                    <div style="margin-top: 16px;">
+                        <div class="subsection-title" style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;font-weight:600;">Skill List</div>
+                        <div class="skill-chips" style="display:flex;flex-wrap:wrap;gap:6px;">
+                            {% for s in profile.saved_skills %}
+                            <span class="chip chip-skill">{{ s }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="empty-state">
+                        Profile belum diisi.<br>Silakan isi di form sebelah kiri dan klik <strong>Simpan</strong>.
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">Quick Actions</h2>
+                    <div class="card-subtitle">Navigasi Cepat</div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="/" class="btn btn-secondary">→ Mulai Analisis Skill</a>
+                        <a href="/history" class="btn btn-ghost">→ Lihat Riwayat ({{ history_count }})</a>
+                        <a href="/chat" class="btn btn-ghost">→ Chat dengan AI</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('profile-form');
+        const skillCount = document.getElementById('skill-count');
+        const avatar = document.getElementById('avatar');
+        const nameInput = document.getElementById('name');
+        const toast = document.getElementById('toast');
+
+        function showToast(msg, type) {
+            toast.textContent = msg;
+            toast.className = 'toast show ' + (type || '');
+            setTimeout(() => { toast.className = 'toast'; }, 2500);
+        }
+
+        nameInput.addEventListener('input', (e) => {
+            avatar.textContent = (e.target.value[0] || 'U').toUpperCase();
+        });
+
+        document.querySelectorAll('input[name="skill"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const label = cb.closest('.skill-checkbox');
+                if (cb.checked) label.classList.add('checked');
+                else label.classList.remove('checked');
+                skillCount.textContent = document.querySelectorAll('input[name="skill"]:checked').length;
+            });
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const skills = Array.from(document.querySelectorAll('input[name="skill"]:checked')).map(cb => cb.value);
+            const payload = {
+                name: document.getElementById('name').value,
+                major: document.getElementById('major').value,
+                semester: parseInt(document.getElementById('semester').value),
+                career_interest: document.getElementById('career_interest').value,
+                saved_skills: skills
+            };
+            try {
+                const res = await fetch('/profile/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast('✓ Profile berhasil disimpan!', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            } catch (err) {
+                showToast('Error: ' + err.message, 'danger');
+            }
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', async () => {
+            if (!confirm('Hapus semua data profile?')) return;
+            await fetch('/profile/reset', { method: 'POST' });
+            showToast('Profile direset', 'success');
+            setTimeout(() => location.reload(), 800);
+        });
+    </script>
+</body>
+</html>

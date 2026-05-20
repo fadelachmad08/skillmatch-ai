@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SkillMatch AI - Mobile Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1D2B64;
+  --blue: #3B82F6;
+  --indigo: #6366F1;
+  --purple: #8B5CF6;
+  --lavender: #EDE9FE;
+  --bg-page: #0F172A;
+  --bg-soft: #F8FAFF;
+  --paper: #FFFFFF;
+  --ink: #1D2B64;
+  --muted: #64748B;
+  --line: #E2E8F0;
+  --success: #10B981;
+  --danger: #EF4444;
+  --gradient: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+body {
+  background: var(--bg-page);
+  color: white;
+  padding: 40px 20px 80px;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  text-align: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.header .meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+}
+.header .subtitle { font-size: 14px; color: rgba(255,255,255,0.5); }
+
+/* FLOW SECTION */
+.flow {
+  max-width: 1400px;
+  margin: 0 auto 48px;
+}
+.flow-header {
+  display: flex; align-items: center; gap: 12px;
+  padding-left: 16px; border-left: 4px solid var(--purple);
+  margin-bottom: 24px;
+}
+.flow-header h2 { font-size: 26px; font-weight: 700; }
+.flow-header .count {
+  background: var(--purple); color: white;
+  padding: 3px 10px; border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+}
+
+/* SCREEN GRID */
+.screens {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* SCREEN CARD */
+.screen-card {
+  background: #1E293B;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.screen-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--purple);
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(139, 92, 246, 0.3);
+}
+
+/* PHONE FRAME */
+.phone {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 9 / 19.5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.phone-status {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px 6px;
+  font-size: 12px; font-weight: 600;
+  color: var(--ink);
+}
+.phone-status .icons { display: flex; gap: 4px; font-size: 11px; }
+
+/* PHONE CONTENT */
+.phone-body {
+  height: calc(100% - 36px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* =================== SCREEN DESIGNS =================== */
+
+/* 1. SPLASH */
+.splash {
+  height: 100%;
+  background: var(--gradient);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 24px;
+  color: white;
+  text-align: center;
+}
+.splash-logo {
+  width: 80px; height: 80px;
+  background: white;
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+.splash-logo::before {
+  content: '★';
+  font-size: 40px;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.splash h1 { font-size: 32px; font-weight: 700; margin-bottom: 6px; letter-spacing: -1px; }
+.splash .tag { font-size: 11px; letter-spacing: 2px; opacity: 0.9; }
+
+/* 2-3. ONBOARDING */
+.onboard {
+  height: 100%;
+  display: flex; flex-direction: column;
+  padding: 32px 24px 24px;
+  background: white;
+}
+.onboard-img {
+  flex: 1;
+  background: var(--lavender);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.onboard-img-text {
+  text-align: center;
+  font-size: 11px;
+  color: var(--purple);
+  font-weight: 600;
+}
+.onboard-img-text .icon-big {
+  display: block;
+  font-size: 48px;
+  margin-bottom: 8px;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.onboard h2 {
+  font-size: 20px; font-weight: 700;
+  color: var(--ink); margin-bottom: 8px; letter-spacing: -0.5px;
+}
+.onboard p { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+.dots { display: flex; gap: 4px; justify-content: center; margin-bottom: 16px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.dot.active { width: 18px; background: var(--purple); border-radius: 100px; }
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-primary { background: var(--gradient); color: white; }
+.btn-outline { background: white; color: var(--purple); border: 1.5px solid var(--purple); }
+.btn-ghost { background: transparent; color: var(--muted); }
+.btn-row { display: flex; gap: 8px; }
+
+/* 4. LOGIN / SIGN UP */
+.auth {
+  height: 100%;
+  padding: 32px 24px;
+  background: white;
+  display: flex; flex-direction: column;
+}
+.auth-logo {
+  width: 56px; height: 56px;
+  background: var(--gradient);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 28px; font-weight: 700;
+  margin-bottom: 20px;
+}
+.auth h2 { font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.auth p { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.input-field {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: inherit;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.input-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--ink); margin-bottom: 4px;
+  display: block;
+}
+.auth-footer {
+  margin-top: auto; text-align: center;
+  font-size: 11px; color: var(--muted);
+}
+.auth-footer a { color: var(--purple); font-weight: 600; text-decoration: none; }
+
+/* HOME / DASHBOARD */
+.dashboard {
+  height: 100%;
+  background: var(--bg-soft);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.dash-top {
+  background: var(--gradient);
+  padding: 20px 20px 30px;
+  color: white;
+}
+.dash-greet { font-size: 11px; opacity: 0.85; margin-bottom: 2px; }
+.dash-name { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.dash-stat-box {
+  background: rgba(255,255,255,0.18);
+  border-radius: 12px; padding: 12px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px;
+  backdrop-filter: blur(10px);
+}
+.dash-stat-box .big { font-size: 22px; font-weight: 700; }
+.dash-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+.dash-card {
+  background: white; border-radius: 12px;
+  padding: 14px; margin-bottom: 10px;
+  border: 1px solid var(--line);
+}
+.dash-card h3 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.dash-card p { font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+.quick-actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-bottom: 12px;
+}
+.action-tile {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  border: 1px solid var(--line);
+}
+.action-tile .ico {
+  width: 36px; height: 36px;
+  background: var(--lavender);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 6px;
+  font-size: 16px;
+}
+.action-tile .name { font-size: 10px; font-weight: 600; color: var(--ink); }
+.section-title-mini {
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin: 8px 0 8px;
+}
+
+/* INPUT FORM (ANALISIS) */
+.form-page {
+  height: 100%;
+  background: white;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.top-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.back-btn {
+  width: 28px; height: 28px;
+  background: var(--bg-soft);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--ink);
+}
+.top-bar h3 { font-size: 14px; font-weight: 700; color: var(--ink); }
+.form-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+.field-group { margin-bottom: 14px; }
+.field-label-sm {
+  font-size: 11px; font-weight: 600;
+  color: var(--ink); display: block; margin-bottom: 4px;
+}
+.skill-grid-mini {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-soft);
+}
+.skill-mini {
+  font-size: 9px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: white;
+  text-align: center;
+  font-weight: 500;
+}
+.skill-mini.on { background: var(--gradient); color: white; }
+.bottom-btn {
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+}
+
+/* RESULT PAGE */
+.result-page {
+  height: 100%;
+  background: var(--bg-soft);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.result-content {
+  flex: 1; padding: 12px; overflow-y: auto;
+}
+.match-hero {
+  background: var(--gradient);
+  border-radius: 14px;
+  padding: 16px;
+  color: white;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.match-hero .num { font-size: 36px; font-weight: 700; line-height: 1; }
+.match-hero .label { font-size: 10px; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; margin: 4px 0 8px; }
+.match-hero h3 { font-size: 16px; font-weight: 700; }
+.match-hero p { font-size: 10px; opacity: 0.85; margin-top: 4px; }
+
+.gap-mini {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+}
+.gap-mini h4 {
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  margin-bottom: 8px; display: flex; justify-content: space-between;
+}
+.gap-mini h4 .badge-sm {
+  background: var(--lavender); color: var(--purple);
+  padding: 2px 6px; border-radius: 100px; font-size: 9px;
+}
+.chip-mini {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 100px;
+  font-size: 9px;
+  font-weight: 500;
+  margin: 2px;
+}
+.chip-have { background: rgba(16, 185, 129, 0.12); color: #047857; }
+.chip-miss { background: rgba(239, 68, 68, 0.12); color: #B91C1C; }
+
+/* CHAT PAGE */
+.chat-page {
+  height: 100%;
+  background: var(--bg-soft);
+  display: flex; flex-direction: column;
+}
+.chat-header-mini {
+  background: white;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-avatar-mini {
+  width: 32px; height: 32px;
+  background: var(--gradient);
+  border-radius: 50%;
+  position: relative;
+}
+.chat-avatar-mini::after {
+  content: ''; position: absolute; bottom: 0; right: 0;
+  width: 8px; height: 8px;
+  background: var(--success); border-radius: 50%;
+  border: 1.5px solid white;
+}
+.chat-header-mini .info h4 { font-size: 12px; font-weight: 700; color: var(--ink); }
+.chat-header-mini .info .stat-online { font-size: 9px; color: var(--success); font-weight: 600; }
+.chat-msgs {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.msg-bubble {
+  max-width: 75%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.msg-ai { background: white; border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 3px; color: var(--ink); }
+.msg-user { background: var(--gradient); color: white; align-self: flex-end; border-bottom-right-radius: 3px; font-weight: 500; }
+.chat-input-mini {
+  padding: 10px 12px;
+  background: white;
+  border-top: 1px solid var(--line);
+  display: flex; gap: 6px;
+}
+.chat-input-mini .input-x {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 10px;
+  background: var(--bg-soft);
+}
+.chat-input-mini .send {
+  width: 32px; height: 32px;
+  background: var(--gradient);
+  border-radius: 50%;
+  color: white; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* HISTORY PAGE */
+.history-page {
+  height: 100%;
+  background: var(--bg-soft);
+  display: flex; flex-direction: column;
+}
+.history-content {
+  flex: 1; padding: 12px; overflow-y: auto;
+}
+.history-card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.history-card .info h5 { font-size: 11px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.history-card .info .meta { font-size: 9px; color: var(--muted); }
+.history-card .score {
+  font-size: 18px; font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* PROFILE PAGE */
+.profile-page {
+  height: 100%;
+  background: var(--bg-soft);
+  overflow-y: auto;
+}
+.profile-hero {
+  background: var(--gradient);
+  padding: 24px 16px 32px;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+.profile-avatar-big {
+  width: 64px; height: 64px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 700;
+  color: var(--purple);
+}
+.profile-hero h3 { font-size: 16px; font-weight: 700; }
+.profile-hero .sub { font-size: 10px; opacity: 0.85; margin-top: 2px; }
+.profile-body { padding: 16px; }
+.info-row {
+  display: flex; justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+}
+.info-row .k { color: var(--muted); }
+.info-row .v { color: var(--ink); font-weight: 600; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  display: flex;
+  background: white;
+  border-top: 1px solid var(--line);
+  padding: 6px 0;
+}
+.nav-item {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
+  padding: 4px;
+  font-size: 8px; font-weight: 600;
+  color: var(--muted);
+}
+.nav-item.active { color: var(--purple); }
+.nav-item .ico { font-size: 16px; }
+.nav-item.active .ico {
+  background: var(--gradient);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* SECTION DIVIDERS */
+.divider {
+  max-width: 1400px;
+  margin: 64px auto 0;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.footer-note {
+  max-width: 800px;
+  margin: 60px auto 0;
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 24px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+}
+.footer-note strong { color: white; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="meta">SKILLMATCH AI · UAP ISYS6596003</div>
+  <h1>Low Fidelity Wireframe — SkillMatch AI</h1>
+  <div class="subtitle">Discover Your Skills. Match Your Future.</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FLOW 1: ONBOARDING -->
+<!-- ============================================================ -->
+<div class="flow">
+  <div class="flow-header">
+    <h2>1. Pre-Login Flow</h2>
+    <span class="count">4 screens</span>
+  </div>
+  <div class="screens">
+
+    <!-- SPLASH SCREEN -->
+    <div class="screen-card">
+      <div class="screen-label">1. SPLASH SCREEN</div>
+      <div class="phone">
+        <div class="phone-status" style="color: white; background: transparent; position: absolute; top: 0; left: 0; right: 0; z-index: 2;">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="splash">
+            <div class="splash-logo"></div>
+            <h1>SkillMatch <span style="color: white;">AI</span></h1>
+            <div class="tag">DISCOVER YOUR SKILLS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONBOARDING 1 -->
+    <div class="screen-card">
+      <div class="screen-label">2. ONBOARDING 1</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="onboard">
+            <div class="onboard-img">
+              <div class="onboard-img-text">
+                <span class="icon-big">🧠</span>
+                Ilustrasi<br>Analisis Skill
+              </div>
+            </div>
+            <h2>Temukan Karier Idealmu</h2>
+            <p>AI menganalisis skill kamu untuk merekomendasikan jalur karier yang paling cocok.</p>
+            <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+            <button class="btn btn-primary">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONBOARDING 2 -->
+    <div class="screen-card">
+      <div class="screen-label">3. ONBOARDING 2</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="onboard">
+            <div class="onboard-img">
+              <div class="onboard-img-text">
+                <span class="icon-big">📊</span>
+                Ilustrasi<br>Skill Gap
+              </div>
+            </div>
+            <h2>Skill Gap Analysis</h2>
+            <p>Identifikasi skill yang masih perlu kamu pelajari untuk mencapai karier impianmu.</p>
+            <div class="dots"><span class="dot"></span><span class="dot active"></span><span class="dot"></span></div>
+            <button class="btn btn-primary">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONBOARDING 3 / GET STARTED -->
+    <div class="screen-card">
+      <div class="screen-label">4. ONBOARDING 3</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="onboard">
+            <div class="onboard-img">
+              <div class="onboard-img-text">
+                <span class="icon-big">🎯</span>
+                Ilustrasi<br>Rekomendasi
+              </div>
+            </div>
+            <h2>Kursus Tepat Untukmu</h2>
+            <p>Dapatkan rekomendasi kursus dari Coursera, Udemy, dll untuk menutup skill gap.</p>
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot active"></span></div>
+            <div class="btn-row">
+              <button class="btn btn-outline" style="flex: 1;">Sign In</button>
+              <button class="btn btn-primary" style="flex: 1;">Sign Up</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FLOW 2: AUTH -->
+<!-- ============================================================ -->
+<div class="flow">
+  <div class="flow-header">
+    <h2>2. Authentication Flow</h2>
+    <span class="count">2 screens</span>
+  </div>
+  <div class="screens">
+
+    <!-- SIGN UP -->
+    <div class="screen-card">
+      <div class="screen-label">5. SIGN UP</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="auth">
+            <div class="auth-logo">★</div>
+            <h2>Buat Akun</h2>
+            <p>Mulai perjalanan karier kamu</p>
+
+            <label class="input-label">Nama Lengkap</label>
+            <input class="input-field" placeholder="Fadel" value="Fadel">
+
+            <label class="input-label">Email</label>
+            <input class="input-field" placeholder="fadel@email.com" value="fadel@email.com">
+
+            <label class="input-label">Password</label>
+            <input class="input-field" type="password" value="••••••••">
+
+            <button class="btn btn-primary" style="margin-top: 8px;">Sign Up</button>
+
+            <div class="auth-footer">Sudah punya akun? <a href="#">Sign In</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGN IN -->
+    <div class="screen-card">
+      <div class="screen-label">6. SIGN IN</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="auth">
+            <div class="auth-logo">★</div>
+            <h2>Welcome Back</h2>
+            <p>Sign in untuk lanjut</p>
+
+            <label class="input-label">Email</label>
+            <input class="input-field" value="fadel@email.com">
+
+            <label class="input-label">Password</label>
+            <input class="input-field" type="password" value="••••••••">
+
+            <a href="#" style="font-size: 10px; color: var(--purple); text-align: right; display: block; margin: 4px 0 12px;">Lupa password?</a>
+
+            <button class="btn btn-primary">Sign In</button>
+
+            <div class="auth-footer">Belum punya akun? <a href="#">Sign Up</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FLOW 3: MAIN APP - HOME -->
+<!-- ============================================================ -->
+<div class="flow">
+  <div class="flow-header">
+    <h2>3. Main App — Home Flow</h2>
+    <span class="count">3 screens</span>
+  </div>
+  <div class="screens">
+
+    <!-- HOME / DASHBOARD -->
+    <div class="screen-card">
+      <div class="screen-label">7. HOME / DASHBOARD</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="dashboard">
+            <div class="dash-top">
+              <div class="dash-greet">Halo,</div>
+              <div class="dash-name">Fadel 👋</div>
+              <div class="dash-stat-box">
+                <div>
+                  <div style="opacity: 0.85;">Latest Match</div>
+                  <div style="font-weight: 700;">Data Analyst</div>
+                </div>
+                <div class="big">94.5%</div>
+              </div>
+            </div>
+            <div class="dash-content">
+              <div class="section-title-mini">Quick Actions</div>
+              <div class="quick-actions">
+                <div class="action-tile">
+                  <div class="ico">🎯</div>
+                  <div class="name">Analisis Skill</div>
+                </div>
+                <div class="action-tile">
+                  <div class="ico">💬</div>
+                  <div class="name">Chat AI</div>
+                </div>
+                <div class="action-tile">
+                  <div class="ico">📜</div>
+                  <div class="name">Riwayat</div>
+                </div>
+                <div class="action-tile">
+                  <div class="ico">📊</div>
+                  <div class="name">Dataset</div>
+                </div>
+              </div>
+
+              <div class="section-title-mini">Recommendation</div>
+              <div class="dash-card">
+                <h3>Data Analyst</h3>
+                <p>Skill gap kamu tinggal 2 lagi!</p>
+                <div>
+                  <span class="chip-mini chip-miss">Data Viz</span>
+                  <span class="chip-mini chip-miss">Power BI</span>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-nav">
+              <div class="nav-item active"><span class="ico">🏠</span>Home</div>
+              <div class="nav-item"><span class="ico">🎯</span>Analisis</div>
+              <div class="nav-item"><span class="ico">💬</span>Chat</div>
+              <div class="nav-item"><span class="ico">👤</span>Profile</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT FORM -->
+    <div class="screen-card">
+      <div class="screen-label">8. ANALISIS SKILL — INPUT</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="form-page">
+            <div class="top-bar">
+              <div class="back-btn">←</div>
+              <h3>Analisis Skill</h3>
+            </div>
+            <div class="form-content">
+              <div class="field-group">
+                <label class="field-label-sm">Nama</label>
+                <input class="input-field" value="Fadel" style="margin: 0;">
+              </div>
+              <div class="field-group">
+                <label class="field-label-sm">Minat Karier</label>
+                <input class="input-field" value="Data Analyst" style="margin: 0;">
+              </div>
+              <div class="field-group">
+                <label class="field-label-sm">Skill Yang Dimiliki (5)</label>
+                <div class="skill-grid-mini">
+                  <span class="skill-mini on">Python</span>
+                  <span class="skill-mini on">SQL</span>
+                  <span class="skill-mini on">Statistics</span>
+                  <span class="skill-mini">ML</span>
+                  <span class="skill-mini">Data Viz</span>
+                  <span class="skill-mini on">Excel</span>
+                  <span class="skill-mini on">Tableau</span>
+                  <span class="skill-mini">Power BI</span>
+                  <span class="skill-mini">R Prog</span>
+                  <span class="skill-mini">DL</span>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-btn">
+              <button class="btn btn-primary">Analisis Sekarang →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="screen-card">
+      <div class="screen-label">9. HASIL ANALISIS</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="result-page">
+            <div class="top-bar">
+              <div class="back-btn">←</div>
+              <h3>Hasil Analisis</h3>
+            </div>
+            <div class="result-content">
+              <div class="match-hero">
+                <div class="num">94.5%</div>
+                <div class="label">Match</div>
+                <h3>Data Analyst</h3>
+                <p>Tech & Data · 7 skill</p>
+              </div>
+
+              <div class="gap-mini">
+                <h4>Sudah Dimiliki <span class="badge-sm">5</span></h4>
+                <div>
+                  <span class="chip-mini chip-have">Python</span>
+                  <span class="chip-mini chip-have">SQL</span>
+                  <span class="chip-mini chip-have">Stats</span>
+                  <span class="chip-mini chip-have">Excel</span>
+                  <span class="chip-mini chip-have">Tableau</span>
+                </div>
+              </div>
+
+              <div class="gap-mini">
+                <h4>Perlu Dipelajari <span class="badge-sm">2</span></h4>
+                <div>
+                  <span class="chip-mini chip-miss">Data Visualization</span>
+                  <span class="chip-mini chip-miss">Power BI</span>
+                </div>
+              </div>
+
+              <div class="gap-mini">
+                <h4>Rekomendasi Kursus</h4>
+                <div style="font-size: 10px; color: var(--muted); line-height: 1.5;">
+                  • Data Viz with Python<br>
+                  &nbsp;&nbsp;<span style="font-size: 9px;">Coursera · 4 minggu</span><br>
+                  • Microsoft Power BI<br>
+                  &nbsp;&nbsp;<span style="font-size: 9px;">Coursera · 6 minggu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FLOW 4: SECONDARY FEATURES -->
+<!-- ============================================================ -->
+<div class="flow">
+  <div class="flow-header">
+    <h2>4. Secondary Features</h2>
+    <span class="count">3 screens</span>
+  </div>
+  <div class="screens">
+
+    <!-- CHAT AI -->
+    <div class="screen-card">
+      <div class="screen-label">10. CHAT AI</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="chat-page">
+            <div class="chat-header-mini">
+              <div class="back-btn">←</div>
+              <div class="chat-avatar-mini"></div>
+              <div class="info">
+                <h4>AI Assistant</h4>
+                <div class="stat-online">● Online</div>
+              </div>
+            </div>
+            <div class="chat-msgs">
+              <div class="msg-bubble msg-ai">Halo Fadel! 👋 Mau tanya apa?</div>
+              <div class="msg-bubble msg-user">Apa karier terbaik untuk saya?</div>
+              <div class="msg-bubble msg-ai">Karier terbaikmu adalah <b>Data Analyst</b> dengan match <b>94.5%</b>.</div>
+              <div class="msg-bubble msg-user">Skill apa yang harus saya pelajari?</div>
+              <div class="msg-bubble msg-ai">Kamu perlu belajar 2 skill: Data Viz & Power BI.</div>
+            </div>
+            <div class="chat-input-mini">
+              <input class="input-x" placeholder="Ketik pertanyaan...">
+              <div class="send">➤</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="screen-card">
+      <div class="screen-label">11. RIWAYAT</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="history-page">
+            <div class="top-bar">
+              <div class="back-btn">←</div>
+              <h3>Riwayat Analisis</h3>
+            </div>
+            <div class="history-content">
+              <div class="history-card">
+                <div class="info">
+                  <h5>Data Analyst</h5>
+                  <div class="meta">17 May · 5 skill</div>
+                </div>
+                <div class="score">94.5%</div>
+              </div>
+              <div class="history-card">
+                <div class="info">
+                  <h5>UI/UX Designer</h5>
+                  <div class="meta">17 May · 3 skill</div>
+                </div>
+                <div class="score">73.2%</div>
+              </div>
+              <div class="history-card">
+                <div class="info">
+                  <h5>Data Scientist</h5>
+                  <div class="meta">16 May · 4 skill</div>
+                </div>
+                <div class="score">68.1%</div>
+              </div>
+              <div class="history-card">
+                <div class="info">
+                  <h5>Web Developer</h5>
+                  <div class="meta">15 May · 4 skill</div>
+                </div>
+                <div class="score">62.4%</div>
+              </div>
+              <div class="history-card">
+                <div class="info">
+                  <h5>Business Analyst</h5>
+                  <div class="meta">14 May · 3 skill</div>
+                </div>
+                <div class="score">58.7%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="screen-card">
+      <div class="screen-label">12. PROFILE</div>
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="icons">●●● 100%</span>
+        </div>
+        <div class="phone-body">
+          <div class="profile-page">
+            <div class="profile-hero">
+              <div class="profile-avatar-big">F</div>
+              <h3>Fadel</h3>
+              <div class="sub">Sistem Informasi · Semester 6</div>
+            </div>
+            <div class="profile-body">
+              <div class="section-title-mini" style="margin-top: 0;">Informasi</div>
+              <div class="info-row"><span class="k">Email</span><span class="v">fadel@...</span></div>
+              <div class="info-row"><span class="k">Minat Karier</span><span class="v">Data Analyst</span></div>
+              <div class="info-row"><span class="k">Total Skill</span><span class="v">5 skill</span></div>
+              <div class="info-row"><span class="k">Analisis</span><span class="v">12 kali</span></div>
+
+              <div class="section-title-mini">My Skills</div>
+              <div style="margin-bottom: 12px;">
+                <span class="chip-mini" style="background: var(--lavender); color: var(--purple);">Python</span>
+                <span class="chip-mini" style="background: var(--lavender); color: var(--purple);">SQL</span>
+                <span class="chip-mini" style="background: var(--lavender); color: var(--purple);">Statistics</span>
+                <span class="chip-mini" style="background: var(--lavender); color: var(--purple);">Excel</span>
+                <span class="chip-mini" style="background: var(--lavender); color: var(--purple);">Tableau</span>
+              </div>
+
+              <button class="btn btn-outline" style="font-size: 11px; padding: 8px;">Edit Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">— End of Wireframe —</div>
+
+<div class="footer-note">
+  <strong>📐 Wireframe SkillMatch AI</strong><br><br>
+  Low Fidelity Wireframe — 12 screens dalam 4 flow utama:<br>
+  Pre-Login (4) · Authentication (2) · Main App Home (3) · Secondary Features (3)<br><br>
+  <strong>Color palette:</strong> Navy #1D2B64 · Blue #3B82F6 · Purple #8B5CF6 · Lavender #EDE9FE<br>
+  <strong>Typography:</strong> Poppins (400, 500, 600, 700)<br>
+  <strong>Ready to redesign di Figma →</strong>
+</div>
+
+</body>
+</html>

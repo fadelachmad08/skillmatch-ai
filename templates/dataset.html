@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset &mdash; SkillMatch AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+    <style>
+        .container { max-width: 1400px; }
+        .tabs {
+            display: flex; gap: 4px;
+            background: var(--paper);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            width: fit-content;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 18px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--muted);
+            border-radius: 8px;
+            transition: all 0.15s;
+        }
+        .tab-btn:hover { color: var(--ink); }
+        .tab-btn.active { background: var(--gradient); color: white; }
+
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--paper);
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: var(--bg); }
+        th { padding: 12px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: var(--muted); white-space: nowrap; border-bottom: 1.5px solid var(--line); }
+        td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: var(--bg); }
+        td.mono { font-size: 12px; font-weight: 500; }
+
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 100px; font-size: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin: 1px; }
+        .badge-skill { background: var(--lavender); color: var(--purple); }
+        .badge-cat-tech { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+        .badge-cat-design { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
+        .badge-level { background: var(--navy); color: white; }
+
+        .readiness-bar { display: inline-block; width: 80px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; vertical-align: middle; }
+        .readiness-bar .fill { height: 100%; background: var(--gradient); }
+
+        .info-box {
+            background: var(--gradient);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 13px; line-height: 1.7;
+        }
+        .info-box .label { color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 2px; font-size: 10px; margin-bottom: 6px; font-weight: 600; }
+        .info-box code { background: rgba(255,255,255,0.18); padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+        .info-box strong { font-weight: 700; }
+
+        .heatmap table { font-size: 11px; }
+        .heatmap th.skill-col { transform: rotate(-45deg); transform-origin: left center; height: 100px; white-space: nowrap; padding: 4px; }
+        .heatmap td.cell-1 { background: var(--gradient); color: white; text-align: center; font-weight: 700; }
+        .heatmap td.cell-0 { background: var(--bg); color: var(--line); text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% set active_page = 'dataset' %}
+        {% include '_header.html' %}
+
+        <div class="hero">
+            <div class="hero-tag">Dataset</div>
+            <h1>Sumber <span class="gradient-text">Data</span> AI</h1>
+            <p>Dataset yang digunakan oleh model SkillMatch AI, terdiri dari 3 sheet dalam format binary skill vector.</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="num">{{ careers_count }}</div><div class="lbl">Jalur Karier</div></div>
+            <div class="stat-card"><div class="num">{{ students_count }}</div><div class="lbl">Profil Mahasiswa</div></div>
+            <div class="stat-card"><div class="num">{{ courses_count }}</div><div class="lbl">Rekomendasi Kursus</div></div>
+            <div class="stat-card"><div class="num">{{ skill_columns|length }}</div><div class="lbl">Skill Dimensions</div></div>
+        </div>
+
+        <div class="info-box">
+            <div class="label">↳ Format Dataset</div>
+            Setiap karier dan profil mahasiswa direpresentasikan sebagai <strong>vektor biner 20-dimensi</strong>. Nilai <code>1</code> berarti skill dimiliki/dibutuhkan, <code>0</code> berarti tidak. Format ini optimal untuk perhitungan <strong>Cosine Similarity</strong>.
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="careers">Career_Skills</button>
+            <button class="tab-btn" data-tab="students">Student_Profiles</button>
+            <button class="tab-btn" data-tab="courses">Course_Recommendations</button>
+            <button class="tab-btn" data-tab="heatmap">Skill Matrix Heatmap</button>
+        </div>
+
+        <!-- CAREERS -->
+        <div class="panel active" id="panel-careers">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>No</th><th>Karier</th><th>Kategori</th><th>Deskripsi</th><th>Skill Dibutuhkan</th><th>Total</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for c in careers %}
+                        <tr>
+                            <td class="mono">{{ c.no }}</td>
+                            <td><strong>{{ c.name }}</strong></td>
+                            <td>
+                                {% if 'Tech' in c.category %}<span class="badge badge-cat-tech">{{ c.category }}</span>
+                                {% else %}<span class="badge badge-cat-design">{{ c.category }}</span>{% endif %}
+                            </td>
+                            <td style="color: var(--muted); max-width: 280px;">{{ c.description }}</td>
+                            <td>{% for s in c.skills %}<span class="badge badge-skill">{{ s }}</span>{% endfor %}</td>
+                            <td class="mono"><strong>{{ c.total_skills }}</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- STUDENTS -->
+        <div class="panel" id="panel-students">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Nama</th><th>Jurusan</th><th>Sem</th><th>Target Karier</th><th>Skill</th><th>Total</th><th>Kesiapan</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td class="mono">{{ s.id }}</td>
+                            <td><strong>{{ s.name }}</strong></td>
+                            <td>{{ s.jurusan }}</td>
+                            <td class="mono">{{ s.semester }}</td>
+                            <td>{{ s.target }}</td>
+                            <td>{% for sk in s.skills %}<span class="badge badge-skill">{{ sk }}</span>{% endfor %}</td>
+                            <td class="mono"><strong>{{ s.total_skills }}</strong></td>
+                            <td>
+                                <div class="readiness-bar"><div class="fill" style="width: {{ s.readiness }}%;"></div></div>
+                                <span class="mono" style="margin-left: 4px;">{{ s.readiness|round(0) }}%</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- COURSES -->
+        <div class="panel" id="panel-courses">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Skill</th><th>Nama Kursus</th><th>Platform</th><th>Level</th><th>Durasi</th><th>Link</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for c in courses %}
+                        <tr>
+                            <td><span class="badge badge-skill">{{ c['Skill'] }}</span></td>
+                            <td><strong>{{ c['Nama Kursus'] }}</strong></td>
+                            <td>{{ c['Platform'] }}</td>
+                            <td><span class="badge badge-level">{{ c['Level'] }}</span></td>
+                            <td class="mono">{{ c['Durasi'] }}</td>
+                            <td class="mono" style="color: var(--blue); word-break: break-all;">{{ c['Link'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HEATMAP -->
+        <div class="panel" id="panel-heatmap">
+            <div class="info-box" style="margin-bottom: 16px;">
+                <div class="label">↳ Binary Skill Matrix Visualization</div>
+                Matriks <strong>{{ careers_count }} karier × {{ skill_columns|length }} skill</strong>. Sel <code>1</code> (warna gradient) = skill dibutuhkan, sel <code>0</code> = tidak.
+            </div>
+            <div class="table-wrap heatmap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="min-width: 180px;">Karier</th>
+                            {% for s in skill_columns %}<th class="skill-col">{{ s }}</th>{% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in careers %}
+                        <tr>
+                            <td><strong>{{ c.name }}</strong></td>
+                            {% for s in skill_columns %}
+                                {% if s in c.skills %}<td class="cell-1">1</td>
+                                {% else %}<td class="cell-0">0</td>{% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritma &mdash; SkillMatch AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+    <style>
+        .container { max-width: 980px; }
+        h2 { font-size: 28px; font-weight: 700; margin-top: 36px; margin-bottom: 16px; color: var(--navy); letter-spacing: -0.5px; }
+        h3 { font-size: 20px; font-weight: 700; margin-top: 20px; margin-bottom: 10px; color: var(--navy); }
+        p { margin-bottom: 14px; }
+
+        .pipeline { background: var(--paper); border: 1px solid var(--line); padding: 28px; border-radius: 16px; margin: 24px 0; }
+        .pipeline-step { display: grid; grid-template-columns: 56px 1fr; gap: 20px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+        .pipeline-step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .pipeline-step .num {
+            font-size: 56px; line-height: 1; font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .pipeline-step h3 { margin-top: 0; }
+
+        .formula {
+            background: var(--navy); color: white;
+            padding: 22px; border-radius: 12px; margin: 16px 0;
+            font-family: 'JetBrains Mono', monospace; font-size: 13px;
+            overflow-x: auto; line-height: 1.8;
+        }
+        .formula .label { color: var(--lavender); text-transform: uppercase; letter-spacing: 2px; font-size: 10px; margin-bottom: 10px; font-weight: 600; }
+        .formula code { color: #C7D2FE; }
+
+        pre { background: var(--navy); color: white; padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; margin: 14px 0; }
+        pre .key { color: #C7D2FE; }
+        pre .str { color: #86EFAC; }
+        pre .comment { color: #94A3B8; font-style: italic; }
+
+        code { font-family: 'JetBrains Mono', monospace; background: var(--lavender); color: var(--purple); padding: 1px 6px; border-radius: 4px; font-size: 13px; font-weight: 500; }
+
+        .callout {
+            background: var(--paper);
+            border-left: 4px solid var(--purple);
+            padding: 14px 20px; margin: 18px 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .callout strong { color: var(--purple); }
+        .callout p { margin-bottom: 8px; }
+        .callout p:last-child { margin-bottom: 0; }
+
+        .example-table { width: 100%; border-collapse: collapse; margin: 16px 0; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+        .example-table th, .example-table td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; }
+        .example-table th { background: var(--bg); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+        .example-table td.center { text-align: center; font-family: 'JetBrains Mono', monospace; }
+        .example-table .has { background: rgba(16, 185, 129, 0.08); }
+        .example-table .miss { background: rgba(239, 68, 68, 0.06); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% set active_page = 'algorithm' %}
+        {% include '_header.html' %}
+
+        <div class="hero">
+            <div class="hero-tag">Algorithm</div>
+            <h1>Cara Kerja <span class="gradient-text">AI</span></h1>
+            <p>SkillMatch AI menggunakan teknik content-based filtering dengan Vector Space Model dan Cosine Similarity untuk merekomendasikan jalur karier dan kursus.</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="num">{{ skill_dim }}</div><div class="lbl">Skill Dimensions</div></div>
+            <div class="stat-card"><div class="num">{{ career_count }}</div><div class="lbl">Career Vectors</div></div>
+            <div class="stat-card"><div class="num">{{ course_count }}</div><div class="lbl">Course Mappings</div></div>
+        </div>
+
+        <h2>Pipeline AI — 4 Tahap</h2>
+
+        <div class="pipeline">
+            <div class="pipeline-step">
+                <div class="num">1</div>
+                <div>
+                    <h3>Vector Representation</h3>
+                    <p>Setiap karier dan profil mahasiswa direpresentasikan sebagai <strong>binary vector berdimensi {{ skill_dim }}</strong>. Setiap dimensi merepresentasikan satu skill.</p>
+                    <pre>Career = [1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+         |__Python, SQL, Statistics, ..., User Testing__|</pre>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="num">2</div>
+                <div>
+                    <h3>Cosine Similarity</h3>
+                    <p>Hitung kemiripan antara <strong>vektor user</strong> dengan setiap vektor karier. Cosine similarity mengukur sudut antara dua vektor di ruang n-dimensi.</p>
+                    <div class="formula">
+                        <div class="label">↳ Formula</div>
+                        cos(θ) = (A · B) / (||A|| × ||B||)<br><br>
+                        A · B    = dot product (jumlah skill yang sama)<br>
+                        ||A||    = magnitude vektor user<br>
+                        ||B||    = magnitude vektor karier
+                    </div>
+                    <p><strong>Kenapa cosine, bukan euclidean?</strong> Karena kita peduli pada arah vektor (kombinasi skill), bukan magnitude. User dengan 3 skill bisa lebih cocok ke karier daripada user dengan 10 skill yang berbeda.</p>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="num">3</div>
+                <div>
+                    <h3>Interest Boost</h3>
+                    <p>Jika user menyatakan minat ke karier tertentu, sistem memberikan <strong>boost +0.10</strong> ke skor final.</p>
+                    <div class="formula">
+                        <div class="label">↳ Final Score</div>
+                        final_score = min(cos_sim + interest_boost, 1.0)
+                    </div>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="num">4</div>
+                <div>
+                    <h3>Skill Gap Analysis + Course Mapping</h3>
+                    <p>Sistem menghitung selisih antara skill yang dibutuhkan karier dengan skill yang dimiliki user. Untuk setiap missing skill, dilakukan lookup ke tabel <code>Course_Recommendations</code>.</p>
+                    <pre><span class="comment"># Skill gap = (career_vec AND NOT user_vec)</span>
+missing = [skill_columns[i] <span class="key">for</span> i <span class="key">in</span> range(N)
+           <span class="key">if</span> career_vec[i] == <span class="str">1</span> <span class="key">and</span> user_vec[i] == <span class="str">0</span>]</pre>
+                </div>
+            </div>
+        </div>
+
+        <h2>Contoh Perhitungan</h2>
+        <div class="callout">
+            <p><strong>Skenario:</strong> User memilih skill <code>Python</code>, <code>SQL</code>, <code>Statistics</code>, <code>Excel</code>, <code>Tableau</code> dengan minat <code>Data Analyst</code>.</p>
+        </div>
+
+        <h3>Step 1: Bangun Vektor User</h3>
+        <pre>user_vec = [1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]</pre>
+
+        <h3>Step 2: Cosine Similarity dengan Data Analyst</h3>
+        <table class="example-table">
+            <thead>
+                <tr><th>Skill</th><th>User</th><th>Data Analyst</th><th>A·B</th></tr>
+            </thead>
+            <tbody>
+                <tr class="has"><td>Python</td><td class="center">1</td><td class="center">1</td><td class="center">1</td></tr>
+                <tr class="has"><td>SQL</td><td class="center">1</td><td class="center">1</td><td class="center">1</td></tr>
+                <tr class="has"><td>Statistics</td><td class="center">1</td><td class="center">1</td><td class="center">1</td></tr>
+                <tr class="miss"><td>Data Visualization</td><td class="center">0</td><td class="center">1</td><td class="center">0</td></tr>
+                <tr class="has"><td>Excel</td><td class="center">1</td><td class="center">1</td><td class="center">1</td></tr>
+                <tr class="has"><td>Tableau</td><td class="center">1</td><td class="center">1</td><td class="center">1</td></tr>
+                <tr class="miss"><td>Power BI</td><td class="center">0</td><td class="center">1</td><td class="center">0</td></tr>
+            </tbody>
+        </table>
+
+        <div class="formula">
+            <div class="label">↳ Perhitungan</div>
+            A · B = 5 (skill yang match)<br>
+            ||A|| = √5 = 2.236<br>
+            ||B|| = √7 = 2.646<br><br>
+            cos_sim = 5 / (2.236 × 2.646) = <code>0.8452</code><br>
+            final_score = 0.8452 + 0.10 = <code>0.9452</code><br><br>
+            <strong>Match: 94.5%</strong>
+        </div>
+
+        <h3>Step 3 & 4: Skill Gap & Kursus</h3>
+        <div class="formula">
+            Missing = {Data Visualization, Power BI}<br>
+            Readiness = 5/7 = <strong>71.4%</strong><br><br>
+            → Data Visualization → "Data Visualization with Python" (Coursera)<br>
+            → Power BI → "Microsoft Power BI Data Analyst" (Coursera)
+        </div>
+
+        <h2>Mengapa Pendekatan Ini?</h2>
+        <div class="callout">
+            <p>1. <strong>Interpretable</strong> — Mudah dijelaskan: "user punya 5 dari 7 skill yang dibutuhkan".</p>
+            <p>2. <strong>Cold-start friendly</strong> — Tidak butuh data histori interaksi user.</p>
+            <p>3. <strong>Computationally efficient</strong> — O(n) untuk satu prediksi, real-time response.</p>
+            <p>4. <strong>Format dataset cocok</strong> — Binary vector format optimal untuk Cosine Similarity.</p>
+        </div>
+
+        <h2>Library</h2>
+        <pre><span class="key">from</span> sklearn.metrics.pairwise <span class="key">import</span> cosine_similarity
+<span class="key">import</span> pandas <span class="key">as</span> pd
+<span class="key">import</span> numpy <span class="key">as</span> np
+<span class="key">from</span> flask <span class="key">import</span> Flask, render_template, request, jsonify</pre>
+
+        <h2>Referensi</h2>
+        <p>Russell &amp; Norvig — <em>Artificial Intelligence: A Modern Approach</em> (4th edition).<br>
+        Aggarwal, C. C. — <em>Recommender Systems: The Textbook</em>, Springer (2016).<br>
+        Manning, Raghavan, Schütze — <em>Introduction to Information Retrieval</em>, Cambridge University Press.</p>
+    </div>
+</body>
+</html>
