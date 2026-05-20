@@ -1,90 +1,29 @@
+---
+title: SkillMatch AI
+emoji: 🎯
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+short_description: AI-powered Career Readiness Recommender
+---
+
 # SkillMatch AI
 
 **Discover Your Skills. Match Your Future.**
 
 Career Readiness Recommender System untuk Mata Kuliah Foundations of Artificial Intelligence.
 
----
-
 ## FITUR
 
 - **Analisis Skill** (Home) — Form input skill & dapat rekomendasi karier real-time
-- **Edit Profile** — Simpan profil pribadi (nama, jurusan, skill) supaya tidak perlu input ulang
-- **Riwayat Analisis** — Semua hasil analisis tersimpan otomatis, bisa di-review kapan saja
+- **Edit Profile** — Simpan profil pribadi (nama, jurusan, skill)
+- **Riwayat Analisis** — Semua hasil analisis tersimpan otomatis
 - **Chat AI** — Tanya AI tentang hasil analisis, skill gap, kursus, atau algoritma
 - **Dataset Viewer** — Lihat 3 sheet dataset + heatmap visualisasi binary matrix
 - **Algorithm Explainer** — Penjelasan lengkap cosine similarity dengan contoh perhitungan
-
----
-
-## CARA MENJALANKAN
-
-### Windows (Disarankan)
-
-1. **Install Python** dari https://python.org/downloads (centang "Add Python to PATH")
-2. **Double-click `run.bat`**
-3. Browser otomatis terbuka ke http://localhost:5000
-
-### Mac/Linux
-
-```bash
-chmod +x run.sh && ./run.sh
-```
-
-### Manual
-
-```bash
-pip install -r requirements.txt
-python app.py
-```
-
----
-
-## JANGAN BUKA HTML LANGSUNG
-
-Aplikasi ini butuh Flask server. **Jangan double-click `index.html`** — itu akan menyebabkan "Failed to fetch" dan dropdown kosong.
-
-Selalu jalankan via `run.bat` atau `python app.py`, lalu buka http://localhost:5000.
-
----
-
-## STRUKTUR PROYEK
-
-```
-skillmatch_ai/
-├── run.bat                       # Launcher Windows (double-click)
-├── run.sh                        # Launcher Mac/Linux
-├── app.py                        # Flask web server (semua route)
-├── recommender.py                # CORE AI (Cosine Similarity)
-├── requirements.txt
-├── README.md
-├── data/
-│   ├── SkillMatch_AI_Dataset.xlsx
-│   └── storage/                  # (auto-generated)
-│       ├── profile.json          # Profile user
-│       └── history.json          # Riwayat analisis
-├── static/
-│   ├── logo.svg                  # Logo SkillMatch AI
-│   └── style.css                 # Stylesheet (design system)
-└── templates/
-    ├── _header.html              # Shared header (nav bar)
-    ├── index.html                # Home (analisis)
-    ├── profile.html              # Edit profile
-    ├── history.html              # Riwayat analisis
-    ├── chat.html                 # Chat AI
-    ├── dataset.html              # Dataset viewer
-    └── algorithm.html            # Penjelasan algoritma
-```
-
----
-
-## BRAND IDENTITY
-
-- **Primary colors:** Navy `#1D2B64`, Blue `#3B82F6`, Purple `#8B5CF6`
-- **Font:** Poppins (SemiBold)
-- **Tagline:** Discover Your Skills. Match Your Future.
-
----
 
 ## ALGORITMA AI
 
@@ -107,8 +46,6 @@ final_score = min(cos_sim + interest_boost, 1.0)
 User: `[Python, SQL, Statistics, Excel, Tableau]` + minat `Data Analyst`
 → **94.5% match**, skill gap: `Data Visualization, Power BI`
 
----
-
 ## DATASET
 
 File: `data/SkillMatch_AI_Dataset.xlsx`
@@ -117,9 +54,7 @@ File: `data/SkillMatch_AI_Dataset.xlsx`
 |---|---|---|
 | Career_Skills | 10 karier | Binary vector (1/0) untuk 20 skill |
 | Student_Profiles | 15 mahasiswa | Binary vector skill |
-| Course_Recommendations | 19 kursus | Mapping skill → kursus (Coursera, Udemy, dll) |
-
----
+| Course_Recommendations | 19 kursus | Mapping skill → kursus |
 
 ## HALAMAN
 
@@ -132,18 +67,21 @@ File: `data/SkillMatch_AI_Dataset.xlsx`
 | `/dataset` | Lihat dataset (3 sheet + heatmap) |
 | `/algorithm` | Penjelasan algoritma lengkap |
 
----
+## TECH STACK
 
-## TROUBLESHOOTING
+- Backend: Flask + Gunicorn
+- AI: scikit-learn (Cosine Similarity), pandas, numpy
+- Frontend: HTML, CSS, JavaScript (vanilla)
+- Deployment: Docker on Hugging Face Spaces
 
-**"Failed to fetch" / dropdown kosong**
-→ Jalankan via `run.bat`, bukan buka HTML langsung
+## LOCAL DEVELOPMENT
 
-**Port 5000 sudah dipakai**
-→ Edit `app.py` baris terakhir, ganti port
+```bash
+pip install -r requirements.txt
+python app.py
+```
 
-**Module not found**
-→ `pip install flask pandas scikit-learn numpy openpyxl`
+Buka http://localhost:5000
 
 ---
 
